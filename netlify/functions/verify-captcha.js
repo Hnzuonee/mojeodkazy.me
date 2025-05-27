@@ -1,9 +1,15 @@
 // netlify/functions/verify-captcha.js
-const fetch = require('node-fetch'); // Ujistěte se, že máte node-fetch v package.json, pokud cílíte na starší Node.js
 
-// DŮLEŽITÉ: Nastavte tyto proměnné v Netlify administraci (Site settings -> Build & deploy -> Environment)
+// Předpokládáme, že 'node-fetch' je potřeba pro starší Node.js verze na Netlify.
+// Pro Node.js 18+ na Netlify by měl být 'fetch' dostupný globálně.
+// Pokud používáte globální fetch, tento řádek a závislost v package.json nejsou nutné.
+const fetch = require('node-fetch'); 
+
+// DŮLEŽITÉ: Nastavte tyto proměnné v Netlify administraci 
+// (Site settings -> Build & deploy -> Environment variables)
 const TURNSTILE_SECRET_KEY = process.env.YOUR_TURNSTILE_SECRET_KEY;
-const FINAL_DESTINATION_URL = process.env.https://onlyfans.com/kristynka.cengerova; // Např. "https://www.mojeodkazy.me/finalni-obsah.html"
+// OPRAVENÝ ŘÁDEK: Načítání z environmentální proměnné
+const FINAL_DESTINATION_URL = process.env.YOUR_FINAL_DESTINATION_URL; 
 
 exports.handler = async function(event, context) {
     if (event.httpMethod !== "POST") {
@@ -22,6 +28,7 @@ exports.handler = async function(event, context) {
             token = bodyData['cf-turnstile-response'];
         }
 
+
         if (!token) {
             return { statusCode: 400, body: JSON.stringify({ error: "Chybí ověřovací token." }) };
         }
@@ -29,8 +36,9 @@ exports.handler = async function(event, context) {
             console.error("Chybí TURNSTILE_SECRET_KEY v environment proměnných!");
             return { statusCode: 500, body: JSON.stringify({ error: "Chyba serveru - konfigurace." }) };
         }
+        // Kontrola, zda byla FINAL_DESTINATION_URL úspěšně načtena z env proměnných
         if (!FINAL_DESTINATION_URL) {
-            console.error("Chybí FINAL_DESTINATION_URL v environment proměnných!");
+            console.error("Chybí FINAL_DESTINATION_URL v environment proměnných nebo je prázdná!");
             return { statusCode: 500, body: JSON.stringify({ error: "Chyba serveru - konfigurace cíle." }) };
         }
 
@@ -40,37 +48,39 @@ exports.handler = async function(event, context) {
             body: JSON.stringify({
                 secret: TURNSTILE_SECRET_KEY,
                 response: token,
-                // remoteip: event.headers['x-nf-client-connection-ip'], // Volitelné
+                // remoteip: event.headers['x-nf-client-connection-ip'], // Volitelné pro předání IP klienta
             }),
         });
 
         const verificationData = await verificationResponse.json();
 
         if (verificationData.success) {
+            // Token je platný, přesměrujeme na finální destinaci
             return {
-                statusCode: 302,
-                headers: { 'Location': FINAL_DESTINATION_URL },
-                body: '',
+                statusCode: 302, // Dočasné přesměrování
+                headers: { 
+                    'Location': FINAL_DESTINATION_URL // Zde se použije URL z env proměnné
+                },
+                body: '', // Tělo může být prázdné pro redirect
             };
         } else {
             console.error("Ověření Turnstile selhalo:", verificationData['error-codes']);
-            // Můžete přesměrovat na stránku s chybou nebo zobrazit chybovou zprávu
-            // Pro jednoduchost zde vrátíme chybu.
+            const errorCodes = verificationData['error-codes'] ? verificationData['error-codes'].join(', ') : 'neznámá chyba';
+            // Vracíme HTML stránku s chybou
             const errorPageHtml = `
                 <!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Chyba Ověření</title>
-                <style>body{font-family:sans-serif;text-align:center;padding:40px;background:#16161d;color:#f5f5f5;} h1{color:#be4dff;}</style></head>
+                <style>body{font-family:sans-serif;text-align:center;padding:40px;background:#16161d;color:#f5f5f5;} h1{color:#be4dff;} a{color:#be4dff;}</style></head>
                 <body><h1>Ověření se nezdařilo</h1><p>Bohužel, nebylo možné ověřit, že nejste robot. Zkuste to prosím znovu.</p>
-                <p><a href="https://www.mojeodkazy.me/verify.html" style="color:#be4dff;">Zpět na ověření</a></p>
-                <p><small>Chybové kódy: ${verificationData['error-codes'] ? verificationData['error-codes'].join(', ') : 'žádné'}</small></p>
+                <p><a href="/verify.html">Zpět na ověření</a></p> <p><small>Detail chyby: ${errorCodes}</small></p>
                 </body></html>`;
             return {
-                statusCode: 403,
+                statusCode: 403, // Forbidden
                 headers: { 'Content-Type': 'text/html; charset=utf-8' },
                 body: errorPageHtml,
             };
         }
     } catch (error) {
-        console.error("Chyba ve funkci verify-captcha:", error);
+        console.error("Chyba ve funkci verify-captcha:", error.toString());
         const errorPageHtml = `
             <!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Chyba Serveru</title>
             <style>body{font-family:sans-serif;text-align:center;padding:40px;background:#16161d;color:#f5f5f5;} h1{color:#be4dff;}</style></head>
