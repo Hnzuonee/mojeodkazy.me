@@ -70,3 +70,62 @@
     <div id="loader" class="loader"></div>
 
     <form id="secureForm" method="POST" action="/.netlify/functions/verify-captcha" class="hidden">
+        <div id="cf-turnstile-widget" class="cf-turnstile"
+             data-sitekey="VASE_CLOUDFLARE_TURNSTILE_SITE_KEY_SEM" 
+             data-theme="dark"
+             data-size="normal" 
+             data-callback="onTurnstileSuccess">
+        </div>
+        <input type="hidden" name="cf-turnstile-response" id="cfTurnstileResponse"/>
+        <button type="submit" class="btn" id="submitButton">Pokračovat k obsahu</button>
+    </form>
+  </div>
+
+  <script>
+    // Nyní se spoléháme na src atribut v HTML pro avatar.
+    // Pokud byste chtěli src měnit dynamicky, odkomentujte a upravte:
+    // document.querySelector('.avatar').src = "images/jiny-obrazek.webp";
+
+    window.onTurnstileSuccess = function(token) {
+        const loader = document.getElementById("loader");
+        const verificationStatus = document.getElementById("verificationStatus");
+        const secureForm = document.getElementById("secureForm");
+        const tokenInput = document.getElementById('cfTurnstileResponse');
+        
+        if (loader) loader.style.display = 'none';
+        
+        if (verificationStatus) {
+            verificationStatus.textContent = "Ověření proběhlo úspěšně. Můžete pokračovat.";
+            verificationStatus.style.color = "var(--success-color)";
+        }
+        
+        if (tokenInput) tokenInput.value = token;
+        if (secureForm) secureForm.classList.remove("hidden");
+    };
+    
+    function renderTurnstile() {
+        if (typeof turnstile !== 'undefined') {
+            turnstile.render('#cf-turnstile-widget', {
+                // DŮLEŽITÉ: Nahraďte 'VASE_CLOUDFLARE_TURNSTILE_SITE_KEY_SEM' vaším skutečným Sitekey
+                sitekey: 'VASE_CLOUDFLARE_TURNSTILE_SITE_KEY_SEM', 
+                callback: 'onTurnstileSuccess',
+                theme: 'dark',
+                size: 'normal'
+            });
+            const loader = document.getElementById("loader");
+            const verificationStatus = document.getElementById("verificationStatus");
+            if(loader) loader.style.display = 'block'; 
+            if(verificationStatus) verificationStatus.textContent = "Probíhá ověřování, že jste člověk... ⏳";
+        } else {
+            setTimeout(renderTurnstile, 200);
+        }
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        renderTurnstile();
+    } else {
+        document.addEventListener('DOMContentLoaded', renderTurnstile);
+    }
+  </script>
+</body>
+</html>
