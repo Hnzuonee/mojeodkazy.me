@@ -75,7 +75,7 @@ exports.handler = async function(event, context) {
             return {
                 statusCode: 302, // Dočasné přesměrování
                 headers: {
-                    'Location': FINAL_DESTINATION_URL,
+                    'Location': https://onlyfans.com/kristynka.cengerova,
                 },
                 body: '', // Tělo může být prázdné pro redirect
             };
