@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jméno Modelky | Moje Odkazy</title>
+    <title>Moje Odkazy | Vaše Jméno/Brand</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
@@ -26,8 +26,8 @@
         .avatar {
             width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent-color);
             object-fit: cover; margin-bottom: 15px;
-             /* Nahraďte URL obrázku nebo použijte placeholder: https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO */
-            content: url("https://via.placeholder.com/100/DB2777/FFFFFF?Text=VASE+LOGO");
+            /* ZDE VLOŽTE URL K VAŠEMU AVATARU */
+            content: url("images/IMG_8334.jpg"); 
         }
         h1 {
             font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700;
@@ -67,26 +67,26 @@
 </head>
 <body>
     <div class="link-hub-card">
-        <img src="#" alt="Profil" class="avatar"> <h1>Jméno Modelky</h1>
-        <p class="username-handle">@VaseInstagramJmeno</p> <div class="link-group">
-            <h2>Moje Hlavní Stránka</h2>
-            <a href="verify.html" class="button-link button-primary">✨ Pokračovat na exkluzivní obsah ✨</a>
+        <img src="images/profilova-fotka.webp" alt="Profil" class="avatar"> <h1>Vaše Jméno/Brand</h1> <p class="username-handle">@VaseInstagramJmeno</p> <div class="link-group">
+            <h2>Exkluzivní Přístup</h2>
+            <a href="https://www.mojeodkazy.me/verify.html" class="button-link button-primary">✨ Získat přístup ✨</a>
         </div>
 
         <div class="link-group">
-            <h2>Sociální Sítě</h2>
+            <h2>Moje Sociální Sítě</h2>
             <a href="https://www.tiktok.com/@VASEJMENO" target="_blank" rel="noopener noreferrer" class="button-link">TikTok</a>
-            <a href="https://www.youtube.com/c/VASEJMENO" target="_blank" rel="noopener noreferrer" class="button-link">YouTube Kanál</a>
-            </div>
+            <a href="https://www.youtube.com/@VASEJMENO" target="_blank" rel="noopener noreferrer" class="button-link">YouTube Kanál</a>
+            <a href="https://www.instagram.com/VASEJMENO" target="_blank" rel="noopener noreferrer" class="button-link">Instagram (jiný profil)</a>
+        </div>
         
         <footer>
-            <p>&copy; <span id="year"></span> Jméno Modelky. Všechna práva vyhrazena.</p>
-            </footer>
+            <p>© <span id="year"></span> Vaše Jméno/Brand. Všechna práva vyhrazena.</p>
+        </footer>
     </div>
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-        // Nastavení URL avataru - nahraďte skutečnou URL
-        document.querySelector('.avatar').src = "https://via.placeholder.com/100/DB2777/FFFFFF?Text=JM";
+        // Pokud avatar nenastavujete přímo v HTML src, můžete to udělat zde:
+        // document.querySelector('.avatar').src = "images/profilova-fotka.webp"; // Nahraďte cestou k vašemu avataru
     </script>
 </body>
 </html>
