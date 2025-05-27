@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jméno Modelky | Moje Odkazy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #18181b; --card-background: #27272a; --text-color: #e4e4e7;
+            --accent-color: #db2777; --accent-hover-color: #c21c67; --secondary-text-color: #a1a1aa;
+            --border-color: #3f3f46; --button-secondary-bg: #3f3f46; --button-secondary-hover-bg: #52525b;
+        }
+        body {
+            font-family: 'Lato', sans-serif; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; margin: 0; background-color: var(--background-color);
+            color: var(--text-color); text-align: center; padding: 20px; line-height: 1.7;
+        }
+        .link-hub-card {
+            background-color: var(--card-background); padding: 30px 35px; border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); max-width: 450px; width: 100%;
+            display: flex; flex-direction: column; align-items: center; border: 1px solid var(--border-color);
+        }
+        .avatar {
+            width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent-color);
+            object-fit: cover; margin-bottom: 15px;
+             /* Nahraďte URL obrázku nebo použijte placeholder: https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO */
+            content: url("https://via.placeholder.com/100/DB2777/FFFFFF?Text=VASE+LOGO");
+        }
+        h1 {
+            font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700;
+            color: var(--text-color); margin-bottom: 8px;
+        }
+        .username-handle { font-size: 16px; color: var(--secondary-text-color); margin-bottom: 25px; }
+        .link-group { width: 100%; margin-bottom: 20px; }
+        .link-group h2 {
+            font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 600;
+            color: var(--accent-color); margin-bottom: 15px; border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px; text-align: left;
+        }
+        .button-link {
+            display: block; width: 100%; padding: 15px 20px; margin-bottom: 12px;
+            background-color: var(--button-secondary-bg); color: var(--text-color);
+            text-decoration: none; border-radius: 10px; font-size: 16px;
+            font-family: 'Lato', sans-serif; font-weight: 600; border: 1px solid var(--border-color);
+            cursor: pointer; transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            text-align: center;
+        }
+        .button-link:hover {
+            background-color: var(--button-secondary-hover-bg); transform: translateY(-2px);
+        }
+        .button-primary { /* Pro hlavní odkaz na LP3 */
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover-color));
+            color: white; border: none;
+            box-shadow: 0 5px 15px rgba(219, 39, 119, 0.3);
+        }
+        .button-primary:hover {
+             background: linear-gradient(135deg, var(--accent-hover-color), var(--accent-color));
+             box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4);
+        }
+        footer { margin-top: 30px; font-size: 12px; color: var(--secondary-text-color); }
+        footer a { color: var(--secondary-text-color); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="link-hub-card">
+        <img src="#" alt="Profil" class="avatar"> <h1>Jméno Modelky</h1>
+        <p class="username-handle">@VaseInstagramJmeno</p> <div class="link-group">
+            <h2>Moje Hlavní Stránka</h2>
+            <a href="verify.html" class="button-link button-primary">✨ Pokračovat na exkluzivní obsah ✨</a>
+        </div>
+
+        <div class="link-group">
+            <h2>Sociální Sítě</h2>
+            <a href="https://www.tiktok.com/@VASEJMENO" target="_blank" rel="noopener noreferrer" class="button-link">TikTok</a>
+            <a href="https://www.youtube.com/c/VASEJMENO" target="_blank" rel="noopener noreferrer" class="button-link">YouTube Kanál</a>
+            </div>
+        
+        <footer>
+            <p>&copy; <span id="year"></span> Jméno Modelky. Všechna práva vyhrazena.</p>
+            </footer>
+    </div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        // Nastavení URL avataru - nahraďte skutečnou URL
+        document.querySelector('.avatar').src = "https://via.placeholder.com/100/DB2777/FFFFFF?Text=JM";
+    </script>
+</body>
+</html>
