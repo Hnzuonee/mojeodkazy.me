@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vítejte!</title>
+    <title>Vítejte! | Vaše Jméno/Brand</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
@@ -26,8 +26,8 @@
         .avatar {
             width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent-color);
             object-fit: cover; margin-bottom: 20px;
-            /* Nahraďte URL obrázku nebo použijte placeholder: https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO */
-            content: url("https://via.placeholder.com/100/DB2777/FFFFFF?Text=VASE+LOGO"); 
+            /* ZDE VLOŽTE URL K VAŠEMU AVATARU, např. "images/muj-avatar.jpg" */
+            content: url("https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO"); 
         }
         h1 {
             font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700;
@@ -72,10 +72,9 @@
 </head>
 <body>
     <div class="profile-card">
-        <img src="#" alt="Profil" class="avatar"> <h1>Vítejte!</h1>
-        <p class="bio-text">Pro nejlepší zážitek a přístup ke všem mým odkazům pokračujte v běžném prohlížeči.</p>
+        <img src="images/placeholder-avatar.jpg" alt="Profil" class="avatar"> <h1>Vítejte!</h1> <p class="bio-text">Pro nejlepší zážitek a přístup ke všem mým odkazům pokračujte v běžném prohlížeči.</p>
         
-        <a href="links.html" class="action-button" id="mainActionLink" rel="noopener noreferrer">Pokračovat na mé odkazy</a>
+        <a href="https://www.mojeodkazy.me/links.html" class="action-button" id="mainActionLink" rel="noopener noreferrer">Pokračovat na mé odkazy</a>
     </div>
 
     <div class="overlay" id="instructionOverlay">
@@ -98,8 +97,8 @@
             const closeOverlayButton = document.getElementById('closeOverlayButton');
             const avatarImg = document.querySelector('.avatar');
             
-            // Nastavení URL avataru - nahraďte skutečnou URL
-            avatarImg.src = "https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO"; 
+            // ZDE NASTAVTE CESTU K VAŠEMU PROFILOVÉMU OBRÁZKU
+            avatarImg.src = "images/IMG_8334.jpg"; // Např. "images/muj-avatar.jpg"
 
             if (isInstagramWebView) {
                 if (mainActionLink) {
@@ -111,11 +110,6 @@
                         }
                     });
                 }
-            } else {
-                 // Pokud nejsme v IG WebView, můžeme uživatele rovnou přesměrovat na LP2
-                 // nebo nechat tlačítko fungovat standardně. Pro jednoduchost necháme fungovat standardně.
-                 // Pokud byste chtěli automatické přesměrování ZDE, POKUD UŽ je v nativním browseru:
-                 // window.location.href = mainActionLink.href;
             }
 
             if (closeOverlayButton && instructionOverlay) {
