@@ -3,7 +3,7 @@ const fetch = require('node-fetch'); // Ujistěte se, že máte node-fetch v pac
 
 // DŮLEŽITÉ: Nastavte tyto proměnné v Netlify administraci (Site settings -> Build & deploy -> Environment)
 const TURNSTILE_SECRET_KEY = process.env.YOUR_TURNSTILE_SECRET_KEY;
-const FINAL_DESTINATION_URL = process.env.YOUR_FINAL_DESTINATION_URL; // Např. "https://www.mojeodkazy.me/finalni-obsah.html"
+const FINAL_DESTINATION_URL = process.env.https://onlyfans.com/kristynka.cengerova; // Např. "https://www.mojeodkazy.me/finalni-obsah.html"
 
 exports.handler = async function(event, context) {
     if (event.httpMethod !== "POST") {
