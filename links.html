@@ -9,64 +9,127 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-color: #18181b; --card-background: #27272a; --text-color: #e4e4e7;
-            --accent-color: #db2777; --accent-hover-color: #c21c67; --secondary-text-color: #a1a1aa;
-            --border-color: #3f3f46; --button-secondary-bg: #3f3f46; --button-secondary-hover-bg: #52525b;
+            --background-color: #18181b; 
+            --card-background: #27272a; 
+            --text-color: #e4e4e7;
+            --accent-color: #db2777; 
+            --accent-hover-color: #c21c67; 
+            --secondary-text-color: #a1a1aa;
+            --border-color: #3f3f46; 
+            --button-secondary-bg: #3f3f46; 
+            --button-secondary-hover-bg: #52525b;
         }
         body {
-            font-family: 'Lato', sans-serif; display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; margin: 0; background-color: var(--background-color);
-            color: var(--text-color); text-align: center; padding: 20px; line-height: 1.7;
+            font-family: 'Lato', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* Centruje .link-hub-card horizontálně */
+            justify-content: center; /* Centruje .link-hub-card vertikálně, pokud je dostatek místa */
+            min-height: 100vh; 
+            margin: 0; 
+            background-color: var(--background-color);
+            color: var(--text-color); 
+            text-align: center; 
+            padding: 20px; 
+            line-height: 1.7;
         }
         .link-hub-card {
-            background-color: var(--card-background); padding: 30px 35px; border-radius: 24px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); max-width: 450px; width: 100%;
-            display: flex; flex-direction: column; align-items: center; border: 1px solid var(--border-color);
+            background-color: var(--card-background); 
+            padding: 30px 35px; 
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); 
+            max-width: 450px; 
+            width: 100%;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* Centruje přímé potomky karty, jako .avatar, h1, .link-group */
+            border: 1px solid var(--border-color);
         }
         .avatar {
-            width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent-color);
-            object-fit: cover; margin-bottom: 15px;
-            /* URL k avataru je definována v HTML src atributu img tagu */
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            border: 3px solid var(--accent-color);
+            object-fit: cover; /* Zajistí správné oříznutí obrázku */
+            margin-bottom: 15px;
+            /* CSS vlastnost 'content' zde byla odstraněna, zdroj obrázku se nastavuje v HTML 'src' atributu */
         }
         h1 {
-            font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700;
-            color: var(--text-color); margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif; 
+            font-size: 26px; 
+            font-weight: 700;
+            color: var(--text-color); 
+            margin-bottom: 8px;
         }
-        .username-handle { font-size: 16px; color: var(--secondary-text-color); margin-bottom: 25px; }
-        .link-group { width: 100%; margin-bottom: 20px; }
+        .username-handle { 
+            font-size: 16px; 
+            color: var(--secondary-text-color); 
+            margin-bottom: 25px; 
+        }
+        .link-group { 
+            width: 100%; 
+            margin-bottom: 20px; 
+            /* Není potřeba zde text-align, pokud .button-link je width: 100% a má vlastní text-align */
+        }
         .link-group h2 {
-            font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 600;
-            color: var(--accent-color); margin-bottom: 15px; border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px; text-align: left;
+            font-family: 'Poppins', sans-serif; 
+            font-size: 18px; 
+            font-weight: 600;
+            color: var(--accent-color); 
+            margin-bottom: 15px; 
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px; 
+            text-align: center; /* Změněno na center pro konzistenci, pokud chcete vlevo, změňte zpět na 'left' */
         }
         .button-link {
-            display: block; width: 100%; padding: 15px 20px; margin-bottom: 12px;
-            background-color: var(--button-secondary-bg); color: var(--text-color);
-            text-decoration: none; border-radius: 10px; font-size: 16px;
-            font-family: 'Lato', sans-serif; font-weight: 600; border: 1px solid var(--border-color);
-            cursor: pointer; transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-            text-align: center;
+            display: block; 
+            width: 100%; 
+            padding: 15px 20px; 
+            margin-bottom: 12px;
+            background-color: var(--button-secondary-bg); 
+            color: var(--text-color);
+            text-decoration: none; 
+            border-radius: 10px; 
+            font-size: 16px;
+            font-family: 'Lato', sans-serif; 
+            font-weight: 600; 
+            border: 1px solid var(--border-color);
+            cursor: pointer; 
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            text-align: center; /* Zarovnává text uvnitř tlačítka na střed */
         }
         .button-link:hover {
-            background-color: var(--button-secondary-hover-bg); transform: translateY(-2px);
+            background-color: var(--button-secondary-hover-bg); 
+            transform: translateY(-2px);
         }
-        .button-primary { /* Tento styl byl pro hlavní odkaz na LP3, nyní není aktivně použit, ale nechávám ho pro případnou budoucí potřebu */
+        .button-primary { 
             background: linear-gradient(135deg, var(--accent-color), var(--accent-hover-color));
-            color: white; border: none;
+            color: white; 
+            border: none;
             box-shadow: 0 5px 15px rgba(219, 39, 119, 0.3);
         }
         .button-primary:hover {
              background: linear-gradient(135deg, var(--accent-hover-color), var(--accent-color));
              box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4);
         }
-        footer { margin-top: 30px; font-size: 12px; color: var(--secondary-text-color); }
-        footer a { color: var(--secondary-text-color); text-decoration: none; }
-        footer a:hover { text-decoration: underline; }
+        footer { 
+            margin-top: 30px; 
+            font-size: 12px; 
+            color: var(--secondary-text-color); 
+        }
+        footer a { 
+            color: var(--secondary-text-color); 
+            text-decoration: none; 
+        }
+        footer a:hover { 
+            text-decoration: underline; 
+        }
     </style>
 </head>
 <body>
     <div class="link-hub-card">
-        <img src="images/profilova-fotka.webp" alt="Profil" class="avatar">
+        <img src="images/profilova-fotka.webp" alt="Profil Kristýnky" class="avatar">
+        
         <h1>Kristýnka</h1>
         <p class="username-handle">@Kikiboo</p>
         
@@ -87,7 +150,7 @@
     rel="noopener noreferrer"
     class="button-link">TikTok 3</a>
 
-<a href="https://www.youtube.com/shorts/-7Vb7v2Js_c"
+<a href="https://www.youtube.com/shorts/-7Vb7v2Js_c" 
     target="_blank"
     rel="noopener noreferrer"
     class="button-link">YouTube</a>
@@ -99,8 +162,6 @@
     </div>
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-        // Pokud avatar nenastavujete přímo v HTML src, můžete to udělat zde:
-        // document.querySelector('.avatar').src = "images/profilova-fotka.webp"; // Nahraďte cestou k vašemu avataru
-    </script>
-</body>
-</html>
+        // Nyní se spoléháme na src atribut v HTML pro avatar.
+        // Pokud byste chtěli src měnit dynamicky z nějakého důvodu, odkomentujte a upravte:
+        // document.querySelector('.avatar').src = "images/VA
