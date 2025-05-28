@@ -26,8 +26,7 @@
         .avatar {
             width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent-color);
             object-fit: cover; margin-bottom: 15px;
-            /* ZDE VLOŽTE URL K VAŠEMU AVATARU */
-            content: url("images/IMG_8334.jpg"); 
+            /* URL k avataru je definována v HTML src atributu img tagu */
         }
         h1 {
             font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700;
@@ -51,7 +50,7 @@
         .button-link:hover {
             background-color: var(--button-secondary-hover-bg); transform: translateY(-2px);
         }
-        .button-primary { /* Pro hlavní odkaz na LP3 */
+        .button-primary { /* Tento styl byl pro hlavní odkaz na LP3, nyní není aktivně použit, ale nechávám ho pro případnou budoucí potřebu */
             background: linear-gradient(135deg, var(--accent-color), var(--accent-hover-color));
             color: white; border: none;
             box-shadow: 0 5px 15px rgba(219, 39, 119, 0.3);
@@ -67,32 +66,31 @@
 </head>
 <body>
     <div class="link-hub-card">
-        <img src="images/profilova-fotka.webp" alt="Profil" class="avatar"> <h1>Kristýnka</h1> <p class="username-handle">@Kikiboo</p> <div class="link-group">
-            <h2>Vítám tě</h2>
-            <a href="https://www.mojeodkazy.me/verify.html" class="button-link button-primary">✨ Moje stránka ✨</a>
-        </div>
-
+        <img src="images/profilova-fotka.webp" alt="Profil" class="avatar">
+        <h1>Kristýnka</h1>
+        <p class="username-handle">@Kikiboo</p>
+        
         <div class="link-group">
             <h2>Moje Sociální Sítě</h2>
-           <a href="https://www.tiktok.com/@kristynka.cengerova/video/7494170845745597718"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="button-link">TikToky</a>
+            <a href="https://www.tiktok.com/@kristynka.cengerova/video/7494170845745597718"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="button-link">TikToky</a>
 
 <a href="https://www.tiktok.com/@kristynka.cengerova/video/7470586607289027862"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="button-link">TikTok 2</a>
+    target="_blank"
+    rel="noopener noreferrer"
+    class="button-link">TikTok 2</a>
 
 <a href="https://www.tiktok.com/@kristynka.cengerova/video/7470215715258109206"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="button-link">TikTok 3</a>
+    target="_blank"
+    rel="noopener noreferrer"
+    class="button-link">TikTok 3</a>
 
 <a href="https://www.youtube.com/shorts/-7Vb7v2Js_c"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="button-link">YouTube</a>
+    target="_blank"
+    rel="noopener noreferrer"
+    class="button-link">YouTube</a>
         </div>
         
         <footer>
