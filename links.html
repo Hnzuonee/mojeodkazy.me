@@ -23,8 +23,8 @@
             font-family: 'Lato', sans-serif; 
             display: flex; 
             flex-direction: column; 
-            align-items: center; /* Centruje .link-hub-card horizontálně */
-            justify-content: center; /* Centruje .link-hub-card vertikálně, pokud je dostatek místa */
+            align-items: center;
+            justify-content: center;
             min-height: 100vh; 
             margin: 0; 
             background-color: var(--background-color);
@@ -42,7 +42,7 @@
             width: 100%;
             display: flex; 
             flex-direction: column; 
-            align-items: center; /* Centruje přímé potomky karty, jako .avatar, h1, .link-group */
+            align-items: center; 
             border: 1px solid var(--border-color);
         }
         .avatar {
@@ -50,9 +50,8 @@
             height: 100px; 
             border-radius: 50%; 
             border: 3px solid var(--accent-color);
-            object-fit: cover; /* Zajistí správné oříznutí obrázku */
+            object-fit: cover; 
             margin-bottom: 15px;
-            /* CSS vlastnost 'content' zde byla odstraněna, zdroj obrázku se nastavuje v HTML 'src' atributu */
         }
         h1 {
             font-family: 'Poppins', sans-serif; 
@@ -69,7 +68,6 @@
         .link-group { 
             width: 100%; 
             margin-bottom: 20px; 
-            /* Není potřeba zde text-align, pokud .button-link je width: 100% a má vlastní text-align */
         }
         .link-group h2 {
             font-family: 'Poppins', sans-serif; 
@@ -79,7 +77,7 @@
             margin-bottom: 15px; 
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 8px; 
-            text-align: center; /* Změněno na center pro konzistenci, pokud chcete vlevo, změňte zpět na 'left' */
+            text-align: center; 
         }
         .button-link {
             display: block; 
@@ -96,12 +94,13 @@
             border: 1px solid var(--border-color);
             cursor: pointer; 
             transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-            text-align: center; /* Zarovnává text uvnitř tlačítka na střed */
+            text-align: center;
         }
         .button-link:hover {
             background-color: var(--button-secondary-hover-bg); 
             transform: translateY(-2px);
         }
+        /* Styl pro primární tlačítko (pokud byste ho chtěli znovu použít) */
         .button-primary { 
             background: linear-gradient(135deg, var(--accent-color), var(--accent-hover-color));
             color: white; 
@@ -112,11 +111,15 @@
              background: linear-gradient(135deg, var(--accent-hover-color), var(--accent-color));
              box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4);
         }
+        /* --- ÚPRAVA PRO FOOTER --- */
         footer { 
+            width: 100%; /* Zajistí, že patička zabere plnou šířku v rámci .link-hub-card */
+            text-align: center; /* Vycentruje text uvnitř patičky */
             margin-top: 30px; 
             font-size: 12px; 
             color: var(--secondary-text-color); 
         }
+        /* --- KONEC ÚPRAVY PRO FOOTER --- */
         footer a { 
             color: var(--secondary-text-color); 
             text-decoration: none; 
@@ -128,7 +131,7 @@
 </head>
 <body>
     <div class="link-hub-card">
-        <img src="images/profilova-fotka.webp" alt="Profil Kristýnky" class="avatar">
+        <img src="images/VASE-FOTOGRAFIE.jpg" alt="Profil Kristýnky" class="avatar">
         
         <h1>Kristýnka</h1>
         <p class="username-handle">@Kikiboo</p>
@@ -136,24 +139,24 @@
         <div class="link-group">
             <h2>Moje Sociální Sítě</h2>
             <a href="https://www.tiktok.com/@kristynka.cengerova/video/7494170845745597718"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="button-link">TikToky</a>
+                target="_blank"
+                rel="noopener noreferrer"
+                class="button-link">TikToky</a>
 
-<a href="https://www.tiktok.com/@kristynka.cengerova/video/7470586607289027862"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="button-link">TikTok 2</a>
+            <a href="https://www.tiktok.com/@kristynka.cengerova/video/7470586607289027862"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="button-link">TikTok 2</a>
 
-<a href="https://www.tiktok.com/@kristynka.cengerova/video/7470215715258109206"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="button-link">TikTok 3</a>
+            <a href="https://www.tiktok.com/@kristynka.cengerova/video/7470215715258109206"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="button-link">TikTok 3</a>
 
-<a href="https://www.youtube.com/shorts/-7Vb7v2Js_c" 
-    target="_blank"
-    rel="noopener noreferrer"
-    class="button-link">YouTube</a>
+            <a href="https://www.youtube.com/shorts/-7Vb7v2Js_c" 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="button-link">YouTube</a>
         </div>
         
         <footer>
@@ -162,6 +165,13 @@
     </div>
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-        // Nyní se spoléháme na src atribut v HTML pro avatar.
-        // Pokud byste chtěli src měnit dynamicky z nějakého důvodu, odkomentujte a upravte:
-        // document.querySelector('.avatar').src = "images/VA
+        
+        // Nastavení src pro avatar přímo v HTML je preferované. 
+        // Pokud byste to z nějakého důvodu potřebovali dělat přes JS, ujistěte se, že cesta je správná:
+        // const avatarImg = document.querySelector('.avatar');
+        // if (avatarImg) {
+        //    avatarImg.src = "images/VASE-FOTOGRAFIE.jpg"; // DŮLEŽITÉ: Zkontrolujte cestu a název!
+        // }
+    </script>
+</body>
+</html>
