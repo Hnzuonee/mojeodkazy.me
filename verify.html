@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ověření | kristýnka</title>
+    <title>Ověření a Obsah | Kristýnka</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
       :root { 
           --violet: #be4dff; --violet-d: #9c3bdb; --bg: #16161d; --card: #242432; 
           --text: #f5f5f5; --muted: #aaa; --success-color: #22c55e;
-          --accent-color: #db2777; /* Barva pro ohraničení avataru a jiné akcenty */
-          --accent-hover-color: #c21c67; /* Přidáno pro konzistenci s tlačítkem */
-          --secondary-text-color: #cfcfcf; /* Přidáno pro konzistenci s p.bio */
+          --accent-color: #db2777; 
+          --accent-hover-color: #c21c67; 
+          --secondary-text-color: #cfcfcf;
       }
       * { box-sizing: border-box; }
       body {
@@ -21,20 +21,14 @@
         min-height: 100vh; text-align: center; padding: 2rem;
       }
       .card {
-        width: 100%; max-width: 420px; background: var(--card);
+        width: 100%; max-width: 480px; /* Mírně širší pro více obsahu */
+        background: var(--card);
         padding: 2.5rem; border-radius: 18px; box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
       }
-      /* --- OPRAVA ZDE --- */
       img.avatar {
-        width: 96px; 
-        height: 96px; 
-        border-radius: 50%; 
-        object-fit: cover; 
-        border: 3px solid var(--accent-color); 
-        margin-bottom: 1.5rem;
-        /* ŘÁDEK content: url(...) BYL ODEBRÁN */
+        width: 96px; height: 96px; border-radius: 50%; object-fit: cover; 
+        border: 3px solid var(--accent-color); margin-bottom: 1.5rem;
       }
-      /* --- KONEC OPRAVY --- */
       h1 { font-family: 'Poppins', sans-serif; margin: .4rem 0 1rem; font-size: 24px; }
       p.bio { margin-bottom: 0.8rem; color: var(--secondary-text-color); font-size: 16px; }
       p.hint { margin-bottom: 1.5rem; color: var(--muted); font-size: 14px; font-style: italic; }
@@ -58,56 +52,97 @@
       }
       @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
       #cf-turnstile-widget { margin: 1.5rem auto; }
+
+      /* Styly pro skrytý obsah */
+      #protectedContentArea {
+          margin-top: 2rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid var(--border-color);
+          text-align: left; /* Nebo podle potřeby vašeho obsahu */
+      }
+      #protectedContentArea h2 {
+          font-family: 'Poppins', sans-serif;
+          color: var(--accent-color);
+          text-align: center;
+          margin-bottom: 1rem;
+      }
+      #protectedContentArea p {
+          font-size: 15px;
+          line-height: 1.7;
+          margin-bottom: 1rem;
+          color: var(--text-color);
+      }
+      #protectedContentArea a.content-link {
+          display: inline-block;
+          padding: 10px 15px;
+          background-color: var(--success-color);
+          color: white;
+          text-decoration: none;
+          border-radius: 8px;
+          margin-top: 10px;
+          transition: background-color 0.2s;
+      }
+       #protectedContentArea a.content-link:hover {
+           background-color: var(--success-hover-color);
+       }
     </style>
 </head>
 <body>
   <div class="card">
     <img src="images/IMG_8334.jpg" alt="Profil" class="avatar" /> 
     <h1>Ověření Přístupu</h1>
-    <p class="bio">Pro pokračování je potřeba provést rychlé bezpečnostní ověření.</p>
+    <p class="bio">Pro zobrazení exkluzivního obsahu je potřeba provést rychlé bezpečnostní ověření.</p>
     <p id="verificationStatus" class="hint">Probíhá ověřování, že jste člověk... ⏳</p>
 
     <div id="loader" class="loader"></div>
 
-    <form id="secureForm" method="POST" action="/.netlify/functions/verify-captcha" class="hidden">
-        <div id="cf-turnstile-widget" class="cf-turnstile"
-             data-sitekey="0x4AAAAAABexDPXLOkSffFaV" 
+    <div id="captchaForm" class="captcha-container"> <div id="cf-turnstile-widget" class="cf-turnstile"
+             data-sitekey="VASE_CLOUDFLARE_TURNSTILE_SITE_KEY_SEM" 
              data-theme="dark"
              data-size="normal" 
              data-callback="onTurnstileSuccess">
         </div>
-        <input type="hidden" name="cf-turnstile-response" id="cfTurnstileResponse"/>
-        <button type="submit" class="btn" id="submitButton">Pokračovat k obsahu</button>
-    </form>
+        <button type="button" class="btn hidden" id="showContentButton">Zobrazit Exkluzivní Obsah</button>
+    </div>
+
+    <div id="protectedContentArea" class="hidden">
+        <h2>Vítejte v Exkluzivní Sekci!</h2>
+        <p>Toto je váš chráněný obsah, který se zobrazí až po úspěšném ověření a kliknutí na tlačítko.</p>
+        <p>Můžete zde mít text, obrázky, nebo další odkazy:</p>
+        <a href="https://www.vas-finalni-cil.cz" target="_blank" rel="noopener noreferrer" class="content-link">Přejít na Hlavní Stránku Klienta</a>
+        <p>Další odstavce s informacemi...</p>
+    </div>
+
   </div>
 
   <script>
-    // Nyní se spoléháme na src atribut v HTML pro avatar.
-    // Pokud byste chtěli src měnit dynamicky, odkomentujte a upravte:
-    // document.querySelector('.avatar').src = "images/jiny-obrazek.webp";
+    let turnstileToken = null; // Globální proměnná pro uložení tokenu
 
+    // Callback funkce pro Turnstile
     window.onTurnstileSuccess = function(token) {
+        turnstileToken = token; // Uložíme získaný token
+        
         const loader = document.getElementById("loader");
         const verificationStatus = document.getElementById("verificationStatus");
-        const secureForm = document.getElementById("secureForm");
-        const tokenInput = document.getElementById('cfTurnstileResponse');
-        
+        const showContentButton = document.getElementById("showContentButton");
+        const turnstileWidget = document.getElementById('cf-turnstile-widget');
+
         if (loader) loader.style.display = 'none';
         
         if (verificationStatus) {
-            verificationStatus.textContent = "Ověření proběhlo úspěšně. Můžete pokračovat.";
+            verificationStatus.textContent = "Ověření úspěšné! Klikněte níže pro zobrazení obsahu.";
             verificationStatus.style.color = "var(--success-color)";
         }
         
-        if (tokenInput) tokenInput.value = token;
-        if (secureForm) secureForm.classList.remove("hidden");
+        if (showContentButton) showContentButton.classList.remove("hidden"); // Zobrazíme tlačítko
+        if (turnstileWidget) turnstileWidget.style.display = 'none'; // Skryjeme CAPTCHA widget
     };
     
+    // Funkce pro renderování Turnstile widgetu
     function renderTurnstile() {
         if (typeof turnstile !== 'undefined') {
             turnstile.render('#cf-turnstile-widget', {
-                // DŮLEŽITÉ: Nahraďte 'VASE_CLOUDFLARE_TURNSTILE_SITE_KEY_SEM' vaším skutečným Sitekey
-                sitekey: 'VASE_CLOUDFLARE_TURNSTILE_SITE_KEY_SEM', 
+                sitekey: 'VASE_CLOUDFLARE_TURNSTILE_SITE_KEY_SEM', // DŮLEŽITÉ: Váš Site Key
                 callback: 'onTurnstileSuccess',
                 theme: 'dark',
                 size: 'normal'
@@ -115,12 +150,41 @@
             const loader = document.getElementById("loader");
             const verificationStatus = document.getElementById("verificationStatus");
             if(loader) loader.style.display = 'block'; 
-            if(verificationStatus) verificationStatus.textContent = "Probíhá ověřování, že jste člověk... ⏳";
+            if(verificationStatus) {
+                 verificationStatus.textContent = "Probíhá ověřování, že jste člověk... ⏳";
+                 verificationStatus.style.color = "var(--muted)"; // Vrátit barvu, pokud se renderuje znovu
+            }
         } else {
             setTimeout(renderTurnstile, 200);
         }
     }
 
+    // Logika pro tlačítko "Zobrazit Exkluzivní Obsah"
+    const showContentButton = document.getElementById("showContentButton");
+    const protectedContentArea = document.getElementById("protectedContentArea");
+    const captchaContainer = document.getElementById("captchaForm"); // Odkaz na kontejner s CAPTCHA a tlačítkem
+
+    if (showContentButton) {
+        showContentButton.addEventListener('click', function() {
+            // Zde byste v reálné aplikaci nejprve poslali 'turnstileToken' na váš server (Netlify Function)
+            // k serverovému ověření. Server by odpověděl, zda je token platný.
+            // Pro zjednodušení tohoto příkladu předpokládáme, že pokud máme token, je "platný" pro účely zobrazení obsahu.
+            // V PRODUKCI MUSÍTE TOKEN OVĚŘIT SERVEROVĚ PŘED ZOBRAZENÍM SKUTEČNĚ CITLIVÉHO OBSAHU!
+
+            if (turnstileToken) { // Ověříme, zda máme token (základní klientská kontrola)
+                if (protectedContentArea) protectedContentArea.classList.remove("hidden");
+                if (captchaContainer) captchaContainer.style.display = 'none'; // Skryjeme CAPTCHA i tlačítko
+                if (verificationStatus) verificationStatus.textContent = "Obsah úspěšně načten!";
+            } else {
+                if (verificationStatus) {
+                    verificationStatus.textContent = "Ověření neproběhlo. Obnovte stránku a zkuste to znovu.";
+                    verificationStatus.style.color = "tomato";
+                }
+            }
+        });
+    }
+
+    // Spuštění renderování Turnstile
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         renderTurnstile();
     } else {
