@@ -79,14 +79,13 @@
             font-size: 0.8rem;
             color: var(--muted);
             margin-top: 1rem;
-            word-break: break-all; /* Zajistí zalamování dlouhých URL */
+            word-break: break-all;
         }
         .denied-message {
             color: var(--danger-color);
             font-weight: 600;
             margin-top: 1rem;
         }
-
     </style>
 </head>
 <body>
@@ -110,7 +109,7 @@
       <p class="destination-url">
         Budete přesměrováni
       </p>
-      </div>
+    </div>
   </div>
 
   <script>
@@ -121,9 +120,38 @@
       const ageGateNoButton = document.getElementById('ageGateNo');
       const ageGateDeniedMessage = document.getElementById('ageGateDeniedMessage');
 
+      // --- Přidáno pro logování přístupu ---
+      async function logPageAccess() {
+        try {
+          // Nahraďte 'log-visit' názvem vaší Netlify funkce, pokud je jiný
+          const response = await fetch('/.netlify/functions/log-visit', { 
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userAgent: navigator.userAgent,
+              pageURL: window.location.href,
+              timestamp_client: new Date().toISOString() // Přidáme i časové razítko z klienta
+            }),
+          });
+          if (!response.ok) {
+            // Můžete zde logovat chybu, ale pro uživatele by to nemělo být viditelné
+            console.warn('Logovací požadavek na server selhal:', response.statusText);
+          }
+        } catch (error) {
+          console.warn('Chyba při odesílání logovacího požadavku:', error);
+        }
+      }
+      // Zavoláme funkci pro logování ihned po načtení DOMu (nebo po nějaké relevantní akci)
+      logPageAccess(); 
+      // --- Konec logování přístupu ---
+
       ageGateYesButton.addEventListener('click', function() {
         ageGateSection.classList.add('hidden');
         contentSection.classList.remove('hidden');
+        // Můžete zvážit zavolání logPageAccess() i zde, pokud chcete logovat specificky úspěšné ověření věku
+        // např. s parametrem signalizujícím úspěch: logPageAccess({event: 'age_verified_yes'});
       });
 
       ageGateNoButton.addEventListener('click', function() {
@@ -135,6 +163,8 @@
         ageGateNoButton.classList.add('hidden');
         
         ageGateDeniedMessage.classList.remove('hidden');
+        // Můžete zvážit zavolání logPageAccess() i zde s jiným parametrem
+        // např. s parametrem signalizujícím neúspěch: logPageAccess({event: 'age_verified_no'});
       });
     });
   </script>
