@@ -31,7 +31,7 @@
             color: var(--text-color); 
             text-align: center; 
             padding: 20px; 
-            box-sizing: border-box; /* Pro konzistentnější padding */
+            box-sizing: border-box;
             line-height: 1.7;
         }
         .profile-card {
@@ -59,18 +59,18 @@
             font-size: 26px; 
             font-weight: 700;
             color: var(--text-color); 
-            margin-top: 0; /* Přidáno pro lepší zarovnání, pokud avatar není první */
+            margin-top: 0;
             margin-bottom: 12px;
         }
-        .instruction-text { /* Přejmenováno z .bio-text pro srozumitelnost */
+        .instruction-text {
             font-size: 16px; 
             color: var(--secondary-text-color); 
             margin-bottom: 30px; 
-            max-width: 340px; /* Mírně upraveno pro lepší zalamování delšího textu */
+            max-width: 340px; 
         }
         .instruction-text strong {
             color: var(--accent-color);
-            font-weight: 700; /* Zdůraznění v Lato regular může vyžadovat vyšší váhu */
+            font-weight: 700;
         }
         .action-button {
             display: inline-block; 
@@ -87,9 +87,9 @@
             cursor: pointer;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             box-shadow: 0 5px 15px rgba(219, 39, 119, 0.3);
-            -webkit-user-select: none; /* Pro Safari */
-            -ms-user-select: none; /* Pro IE 10 a IE 11 */
-            user-select: none; /* Standardní syntaxe */
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         .action-button:hover, .action-button:focus {
             transform: translateY(-3px) scale(1.02);
@@ -100,7 +100,7 @@
 </head>
 <body>
     <div class="profile-card">
-        <img src="https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO" alt="Profil" class="avatar" id="avatarImage">
+        <img src="images/IMG_8334.jpg" alt="Profil Tvoje K" class="avatar">
         <h1 id="mainHeadline">Otevřít v prohlížeči</h1>
         <p class="instruction-text" id="instructionTextElement">
             Pro nejlepší zážitek a přístup ke všem funkcím, prosím, otevřete tuto stránku ve Vašem hlavním prohlížeči.
@@ -115,12 +115,6 @@
             // Detekce Instagram/Facebook webview
             const isWebView = /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
             const instructionTextElement = document.getElementById('instructionTextElement');
-            const avatarImage = document.getElementById('avatarImage'); // ID přidáno k img tagu
-
-            // NASTAVTE ZDE URL K VAŠEMU AVATARU (musí odpovídat tomu v HTML nebo být zde nastaveno):
-            // avatarImage.src = "images/vas_avatar.jpg"; // Příklad
-            // Pokud necháte placeholder v HTML, nemusíte zde měnit, pokud je to stejný placeholder.
-            // Pokud chcete dynamicky měnit, odkomentujte a nastavte.
 
             const defaultInstruction = "Pro nejlepší zážitek a přístup ke všem funkcím, prosím, otevřete naše stránky ve Vašem hlavním prohlížeči.";
             const webViewInstruction = "Pro nejlepší zážitek a všechny funkce je třeba tuto stránku otevřít ve Vašem hlavním prohlížeči.<br><br>Uděláte to takto: <strong>Podržte prst na tlačítku</strong> \"Pokračovat na mé odkazy\" níže a z nabídky, která se objeví, zvolte <strong>\"Otevřít v prohlížeči\"</strong> (nebo podobnou volbu).";
@@ -129,14 +123,8 @@
                 if (instructionTextElement) {
                     instructionTextElement.innerHTML = webViewInstruction;
                 }
-                // Atribut target="_blank" na odkazu může v některých webview pomoci, 
-                // ale instrukce pro dlouhé stisknutí je spolehlivější metoda,
-                // jak dát uživateli možnost vynutit si otevření v externím prohlížeči.
-                // Nebráníme výchozí akci odkazu (event.preventDefault() není voláno),
-                // aby odkaz zůstal funkční pro všechny scénáře.
             } else {
                 if (instructionTextElement) {
-                    // Pokud nejsme ve webview, můžeme text zjednodušit nebo nechat obecný.
                     instructionTextElement.innerHTML = defaultInstruction + "<br><br>Zdá se, že již používáte standardní prohlížeč, takže stačí kliknout níže.";
                 }
             }
