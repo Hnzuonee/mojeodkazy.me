@@ -135,9 +135,9 @@
       const ageGateNoButton = document.getElementById('ageGateNo');
       const ageGateDeniedMessage = document.getElementById('ageGateDeniedMessage');
       
-      const mainActionLink = document.getElementById('mainActionLink'); // Přesunuto sem pro přístup v obou větvích
-      const destinationUrlText = document.getElementById('destinationUrlText'); // Přesunuto sem
-      const actualDestination = 'https://onlyfans.com/jentvojekiks';
+      const mainActionLink = document.getElementById('mainActionLink');
+      const destinationUrlText = document.getElementById('destinationUrlText');
+      const actualDestination = 'https://onlyfans.com/jentvojekiks'; // Cílová URL zůstává zde
 
       const SESSION_ID_KEY = 'kristynka_page_session_id';
       let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
@@ -184,11 +184,12 @@
         contentSection.classList.remove('hidden');
 
         if (mainActionLink) {
-            mainActionLink.href = actualDestination;
+            mainActionLink.href = actualDestination; // Nastavíme skutečný cíl odkazu
             mainActionLink.style.display = 'block'; 
         }
         if (destinationUrlText) {
-            destinationUrlText.textContent = 'Budete přesměrováni na: ' + actualDestination.replace('https://','');
+            // Změna textu podle vašeho požadavku
+            destinationUrlText.textContent = 'Po kliknutí budete přesměrováni na cílovou stránku.'; 
             destinationUrlText.style.display = 'block'; 
         }
         
