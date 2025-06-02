@@ -137,7 +137,9 @@
       
       const mainActionLink = document.getElementById('mainActionLink');
       const destinationUrlText = document.getElementById('destinationUrlText');
-      const actualDestination = 'https://onlyfans.com/jentvojekiks'; // Cílová URL zůstává zde
+      
+      // Zakódovaná cílová URL (Base64 z 'https://onlyfans.com/jentvojekiks')
+      const encodedUrl = 'aHR0cHM6Ly9vbmx5ZmFucy5jb20vamVudHZvamVraWtz';
 
       const SESSION_ID_KEY = 'kristynka_page_session_id';
       let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
@@ -183,12 +185,14 @@
         ageGateSection.classList.add('hidden');
         contentSection.classList.remove('hidden');
 
+        // Dekódování a nastavení cílové URL
+        const actualDestination = atob(encodedUrl); 
+
         if (mainActionLink) {
-            mainActionLink.href = actualDestination; // Nastavíme skutečný cíl odkazu
+            mainActionLink.href = actualDestination; 
             mainActionLink.style.display = 'block'; 
         }
         if (destinationUrlText) {
-            // Změna textu podle vašeho požadavku
             destinationUrlText.textContent = 'Po kliknutí budete přesměrováni na cílovou stránku.'; 
             destinationUrlText.style.display = 'block'; 
         }
