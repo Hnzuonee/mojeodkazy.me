@@ -9,10 +9,10 @@
         :root {  
             --violet: #be4dff; --violet-d: #9c3bdb; --bg: #16161d; --card: #242432;  
             --text: #f5f5f5; --muted: #aaa; --success-color: #22c55e;
-            --accent-color: #db2777;
+            --accent-color: #db2777; 
             --accent-hover-color: #c21c67; 
             --secondary-text-color: #cfcfcf;
-            --danger-color: #ef4444;
+            --danger-color: #ef4444; 
             --danger-hover-color: #dc2626;
         }
         * { box-sizing: border-box; }
@@ -81,6 +81,22 @@
             font-weight: 600;
             margin-top: 1rem;
         }
+        .privacy-notice { /* Nový styl pro upozornění */
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+            width: 100%; /* Aby zabralo šířku karty */
+        }
+        .privacy-notice a {
+            color: var(--muted);
+            text-decoration: underline;
+        }
+        .privacy-notice a:hover {
+            color: var(--text);
+        }
     </style>
 </head>
 <body>
@@ -102,8 +118,12 @@
         Pokračovat
       </a>
       <p class="destination-url">
-        Budete přesměrováni na: onlyfans.com/jentvojekiks
+        Budete přesměrováni na cílovou stránku
       </p>
+    </div>
+
+    <div class="privacy-notice" id="privacyNoticeSection"> <p>Pro zajištění bezpečnosti a správného fungování této stránky můžeme zaznamenávat technické údaje o vaší návštěvě (např. typ prohlížeče, IP adresu) na základě našeho oprávněného zájmu. Tyto údaje nám pomáhají chránit stránku a detekovat potenciální hrozby.
+        <br>Více informací naleznete v našich <a href="/VASE-ZASADY-OCHRANY-OSOBNICH-UDAJU.html" target="_blank" rel="noopener noreferrer">Zásadách ochrany osobních údajů</a>.</p>
     </div>
   </div>
 
@@ -114,13 +134,13 @@
       const ageGateYesButton = document.getElementById('ageGateYes');
       const ageGateNoButton = document.getElementById('ageGateNo');
       const ageGateDeniedMessage = document.getElementById('ageGateDeniedMessage');
+      // const privacyNoticeSection = document.getElementById('privacyNoticeSection'); // Lze použít pro skrytí/zobrazení s contentSection
 
       // --- Úprava pro Session ID a logování ---
-      const SESSION_ID_KEY = 'kristynka_page_session_id'; // Unikátní klíč pro vaši stránku
+      const SESSION_ID_KEY = 'kristynka_page_session_id';
       let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
 
       if (!sessionId) {
-        // Moderní prohlížeče podporují crypto.randomUUID()
         sessionId = self.crypto && self.crypto.randomUUID ? 
                         self.crypto.randomUUID() : 
                         'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15);
@@ -130,15 +150,15 @@
       // Logování probíhá pro bezpečnostní účely (např. detekce botů a neobvyklé aktivity).
       // Zpracování údajů (jako User-Agent a IP adresa na serveru) se děje
       // s ohledem na principy GDPR, například na základě oprávněného zájmu
-      // o zabezpečení této služby. Pro více informací viz naše Zásady ochrany os. údajů.
+      // o zabezpečení této služby. Pro více informací viz naše Zásady ochrany os. údajů. (TENTO KOMENTÁŘ JE PRO VÁS)
       async function logPageAccess(eventDetails = {}) {
         try {
           const payload = {
-            session_id: sessionId, // Přidáno session ID
+            session_id: sessionId,
             userAgent: navigator.userAgent,
             pageURL: window.location.href,
             timestamp_client: new Date().toISOString(),
-            event: eventDetails.event || 'unknown_event' // Výchozí, pokud není specifikováno
+            event: eventDetails.event || 'unknown_event'
           };
           if (eventDetails.age_gate_response) {
             payload.age_gate_response = eventDetails.age_gate_response;
@@ -165,6 +185,7 @@
       ageGateYesButton.addEventListener('click', function() {
         ageGateSection.classList.add('hidden');
         contentSection.classList.remove('hidden');
+        // privacyNoticeSection.classList.remove('hidden'); // Pokud by byl defaultně skrytý s contentSection
         logPageAccess({event: 'age_verified_yes', age_gate_response: 'yes'});
       });
 
@@ -177,6 +198,7 @@
         ageGateNoButton.classList.add('hidden');
         
         ageGateDeniedMessage.classList.remove('hidden');
+        // privacyNoticeSection zůstává viditelný i při zamítnutí, což je správně
         logPageAccess({event: 'age_verified_no', age_gate_response: 'no'});
       });
     });
