@@ -75,9 +75,9 @@
         .link-group { 
             width: 100%; 
             margin-bottom: 20px; 
-            display: flex; /* Přidáno */
-            flex-direction: column; /* Přidáno */
-            align-items: center; /* Přidáno - centruje H2 a tlačítka, pokud by neměly width 100% */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .link-group h2 {
             font-family: 'Poppins', sans-serif; 
@@ -88,16 +88,16 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 8px; 
             text-align: center; 
-            width: 100%; /* Zajistí, že H2 také zabere plnou šířku a je centrován jako blok */
+            width: 100%;
         }
         .button-link {
             display: block; 
             width: 100%; 
-            max-width: 350px; /* Omezuje maximální šířku tlačítek */
-            margin-left: auto; /* Centruje tlačítko, pokud je jeho max-width menší než šířka .link-group */
-            margin-right: auto;/* Centruje tlačítko */
+            max-width: 350px; 
+            margin-left: auto; 
+            margin-right: auto;
             padding: 15px 20px; 
-            margin-bottom: 12px; /* Přidává mezeru pod každým tlačítkem */
+            margin-bottom: 12px; 
             background-color: var(--button-secondary-bg); 
             color: var(--text-color);
             text-decoration: none; 
@@ -121,8 +121,8 @@
             box-shadow: 0 5px 15px rgba(219, 39, 119, 0.3);
         }
         .button-primary:hover {
-             background: linear-gradient(135deg, var(--accent-hover-color), var(--accent-color));
-             box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4);
+            background: linear-gradient(135deg, var(--accent-hover-color), var(--accent-color));
+            box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4);
         }
         footer { 
             width: 100%; 
@@ -147,27 +147,33 @@
         <h1>Kristýnka</h1>
         <p class="username-handle">@Kikiboo</p>
         
+        <a href="https://mojeodkazy.me/personalblog"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="button-link button-primary" 
+           style="margin-bottom: 25px;">moje stránka</a>
+        
         <div class="link-group">
             <h2>Moje Sociální Sítě</h2>
             <a href="https://www.tiktok.com/@kristynka.cengerova/video/7494170845745597718"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="button-link">TikTok Video 1</a>
+               target="_blank"
+               rel="noopener noreferrer"
+               class="button-link">TikTok Video 1</a>
 
             <a href="https://www.tiktok.com/@kristynka.cengerova/video/7470586607289027862"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="button-link">TikTok Video 2</a>
+               target="_blank"
+               rel="noopener noreferrer"
+               class="button-link">TikTok Video 2</a>
 
             <a href="https://www.tiktok.com/@kristynka.cengerova/video/7470215715258109206"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="button-link">TikTok Video 3</a>
+               target="_blank"
+               rel="noopener noreferrer"
+               class="button-link">TikTok Video 3</a>
 
             <a href="https://www.youtube.com/shorts/-7Vb7v2Js_c" 
-                target="_blank"
-                rel="noopener noreferrer"
-                class="button-link">YouTube Video</a>
+               target="_blank"
+               rel="noopener noreferrer"
+               class="button-link">YouTube Video</a>
         </div>
         
         <footer>
