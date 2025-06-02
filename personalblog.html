@@ -107,7 +107,7 @@
         Pokračovat
       </a>
       <p class="destination-url">
-        Budete přesměrováni
+        Budete přesměrováni na: onlyfans.com/jentvojekiks
       </p>
     </div>
   </div>
@@ -121,37 +121,44 @@
       const ageGateDeniedMessage = document.getElementById('ageGateDeniedMessage');
 
       // --- Přidáno pro logování přístupu ---
-      async function logPageAccess() {
+      // Logování probíhá pro bezpečnostní účely (např. detekce botů a neobvyklé aktivity).
+      // Zpracování údajů (jako User-Agent a IP adresa na serveru) se děje
+      // s ohledem na principy GDPR, například na základě oprávněného zájmu
+      // o zabezpečení této služby. Pro více informací viz naše Zásady ochrany os. údajů.
+      async function logPageAccess(eventDetails = {}) { // Přidána možnost poslat detaily události
         try {
-          // Nahraďte 'log-visit' názvem vaší Netlify funkce, pokud je jiný
+          const payload = {
+            userAgent: navigator.userAgent,
+            pageURL: window.location.href,
+            timestamp_client: new Date().toISOString(),
+            event: eventDetails.event || 'page_load' // Výchozí událost je načtení stránky
+          };
+          if (eventDetails.age_gate_response) {
+            payload.age_gate_response = eventDetails.age_gate_response;
+          }
+
           const response = await fetch('/.netlify/functions/log-visit', { 
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              userAgent: navigator.userAgent,
-              pageURL: window.location.href,
-              timestamp_client: new Date().toISOString() // Přidáme i časové razítko z klienta
-            }),
+            body: JSON.stringify(payload),
           });
           if (!response.ok) {
-            // Můžete zde logovat chybu, ale pro uživatele by to nemělo být viditelné
             console.warn('Logovací požadavek na server selhal:', response.statusText);
           }
         } catch (error) {
           console.warn('Chyba při odesílání logovacího požadavku:', error);
         }
       }
-      // Zavoláme funkci pro logování ihned po načtení DOMu (nebo po nějaké relevantní akci)
-      logPageAccess(); 
+      
+      logPageAccess({event: 'page_loaded_age_gate_displayed'}); // Logujeme načtení stránky (zobrazení age gate)
       // --- Konec logování přístupu ---
 
       ageGateYesButton.addEventListener('click', function() {
         ageGateSection.classList.add('hidden');
         contentSection.classList.remove('hidden');
-        // Můžete zvážit zavolání logPageAccess() i zde, pokud chcete logovat specificky úspěšné ověření věku
-        // např. s parametrem signalizujícím úspěch: logPageAccess({event: 'age_verified_yes'});
+        logPageAccess({event: 'age_verified_yes'}); // Logujeme úspěšné ověření věku
       });
 
       ageGateNoButton.addEventListener('click', function() {
@@ -163,8 +170,7 @@
         ageGateNoButton.classList.add('hidden');
         
         ageGateDeniedMessage.classList.remove('hidden');
-        // Můžete zvážit zavolání logPageAccess() i zde s jiným parametrem
-        // např. s parametrem signalizujícím neúspěch: logPageAccess({event: 'age_verified_no'});
+        logPageAccess({event: 'age_verified_no'}); // Logujeme neúspěšné ověření věku
       });
     });
   </script>
