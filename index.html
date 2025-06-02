@@ -3,128 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vítejte! | Kristýnka</title>
+    <title>Otevřít v prohlížeči | Vaše Jméno</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-color: #18181b; --card-background: #27272a; --text-color: #e4e4e7;
-            --accent-color: #db2777; --accent-hover-color: #c21c67; --secondary-text-color: #a1a1aa;
-            --success-color: #22c55e; --success-hover-color: #16a34a; --border-color: #3f3f46;
+            --background-color: #18181b; 
+            --card-background: #27272a; 
+            --text-color: #e4e4e7;
+            --accent-color: #db2777; 
+            --accent-hover-color: #c21c67; 
+            --secondary-text-color: #a1a1aa;
+            --success-color: #22c55e; 
+            --success-hover-color: #16a34a; 
+            --border-color: #3f3f46;
         }
         body {
-            font-family: 'Lato', sans-serif; display: flex; flex-direction: column; align-items: center;
-            justify-content: center; min-height: 100vh; margin: 0; background-color: var(--background-color);
-            color: var(--text-color); text-align: center; padding: 20px; line-height: 1.7;
+            font-family: 'Lato', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            background-color: var(--background-color);
+            color: var(--text-color); 
+            text-align: center; 
+            padding: 20px; 
+            box-sizing: border-box; /* Pro konzistentnější padding */
+            line-height: 1.7;
         }
         .profile-card {
-            background-color: var(--card-background); padding: 35px 40px; border-radius: 24px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); max-width: 400px; width: 100%;
-            display: flex; flex-direction: column; align-items: center; border: 1px solid var(--border-color);
+            background-color: var(--card-background); 
+            padding: 35px 40px; 
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); 
+            max-width: 400px; 
+            width: 100%;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            border: 1px solid var(--border-color);
         }
         .avatar {
-            width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent-color);
-            object-fit: cover; margin-bottom: 20px;
-            /* ZDE VLOŽTE URL K VAŠEMU AVATARU, např. "images/muj-avatar.jpg" */
-            content: url("https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO"); 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            border: 3px solid var(--accent-color);
+            object-fit: cover; 
+            margin-bottom: 20px;
         }
         h1 {
-            font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700;
-            color: var(--text-color); margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif; 
+            font-size: 26px; 
+            font-weight: 700;
+            color: var(--text-color); 
+            margin-top: 0; /* Přidáno pro lepší zarovnání, pokud avatar není první */
+            margin-bottom: 12px;
         }
-        .bio-text { font-size: 16px; color: var(--secondary-text-color); margin-bottom: 30px; max-width: 320px; }
+        .instruction-text { /* Přejmenováno z .bio-text pro srozumitelnost */
+            font-size: 16px; 
+            color: var(--secondary-text-color); 
+            margin-bottom: 30px; 
+            max-width: 340px; /* Mírně upraveno pro lepší zalamování delšího textu */
+        }
+        .instruction-text strong {
+            color: var(--accent-color);
+            font-weight: 700; /* Zdůraznění v Lato regular může vyžadovat vyšší váhu */
+        }
         .action-button {
-            display: inline-block; width: 100%; padding: 16px 30px;
+            display: inline-block; 
+            width: 100%; 
+            padding: 16px 30px;
             background: linear-gradient(135deg, var(--accent-color), var(--accent-hover-color));
-            color: white; text-decoration: none; border-radius: 12px; font-size: 18px;
-            font-family: 'Poppins', sans-serif; font-weight: 600; border: none; cursor: pointer;
+            color: white; 
+            text-decoration: none; 
+            border-radius: 12px; 
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 600; 
+            border: none; 
+            cursor: pointer;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             box-shadow: 0 5px 15px rgba(219, 39, 119, 0.3);
+            -webkit-user-select: none; /* Pro Safari */
+            -ms-user-select: none; /* Pro IE 10 a IE 11 */
+            user-select: none; /* Standardní syntaxe */
         }
         .action-button:hover, .action-button:focus {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4); outline: none;
+            box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4); 
+            outline: none;
         }
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(10, 10, 20, 0.85); display: none; align-items: center;
-            justify-content: center; z-index: 1000; padding: 20px; box-sizing: border-box;
-            backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s ease-in-out;
-        }
-        .overlay.visible { display: flex; opacity: 1; }
-        .overlay-content {
-            background-color: var(--card-background); padding: 30px 35px; border-radius: 16px;
-            text-align: center; max-width: 380px; width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4); border-top: 5px solid var(--accent-color);
-        }
-        .overlay-content h2 { font-family: 'Poppins', sans-serif; font-size: 22px; color: var(--text-color); margin-top: 0; margin-bottom: 20px; }
-        .overlay-content p { font-size: 16px; color: var(--secondary-text-color); margin-bottom: 12px; line-height: 1.6; }
-        .overlay-content .instruction-emphasis { font-weight: 700; color: var(--accent-color); }
-        .overlay-button {
-            display: inline-block; width: 100%; margin-top: 25px; padding: 14px 20px;
-            background-color: var(--success-color); color: white; border: none; border-radius: 10px;
-            font-size: 17px; font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-        }
-        .overlay-button:hover, .overlay-button:focus { background-color: var(--success-hover-color); transform: scale(1.03); outline: none; }
     </style>
 </head>
 <body>
     <div class="profile-card">
-        <img src="images/placeholder-avatar.jpg" alt="Profil" class="avatar"> <h1>Vítejte!</h1> <p class="bio-text">Pro nejlepší zážitek a přístup ke všem mým odkazům pokračujte v běžném prohlížeči. Prosím, podrž tlačítko pokračovat po dobu cca jedné sekundy.</p>
-        
-        <a href="https://www.mojeodkazy.me/links.html" class="action-button" id="mainActionLink" rel="noopener noreferrer">Pokračovat na mé odkazy</a>
-    </div>
-
-    <div class="overlay" id="instructionOverlay">
-        <div class="overlay-content">
-            <h2>Otevřít v prohlížeči</h2>
-            <p>Aby se stránka správně načetla a měli jste přístup ke všem funkcím, otevřete ji prosím ve vašem standardním prohlížeči.</p>
-            <p>Zavřete toto okno (tlačítkem <span class="instruction-emphasis">"Rozumím"</span>) a poté:
-                <br><strong>podržte tlačítko <span class="instruction-emphasis">"Pokračovat na mé odkazy"</span> déle.</strong>
-                <br>Z nabídky zvolte <span class="instruction-emphasis">"Otevřít v prohlížeči"</span> (nebo podobnou volbu).
-            </p>
-            <button class="overlay-button" id="closeOverlayButton">Rozumím</button>
-        </div>
+        <img src="https://via.placeholder.com/100/DB2777/FFFFFF?Text=LOGO" alt="Profil" class="avatar" id="avatarImage">
+        <h1 id="mainHeadline">Otevřít v prohlížeči</h1>
+        <p class="instruction-text" id="instructionTextElement">
+            Pro nejlepší zážitek a přístup ke všem funkcím, prosím, otevřete tuto stránku ve Vašem hlavním prohlížeči.
+        </p>
+        <a href="https://urlgeni.us/mojeodkazy" class="action-button" id="mainActionLink" rel="noopener noreferrer" target="_blank">
+            Pokračovat na mé odkazy
+        </a>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const isInstagramWebView = /Instagram/i.test(navigator.userAgent);
-            const mainActionLink = document.getElementById('mainActionLink');
-            const instructionOverlay = document.getElementById('instructionOverlay');
-            const closeOverlayButton = document.getElementById('closeOverlayButton');
-            const avatarImg = document.querySelector('.avatar');
-            
-            // ZDE NASTAVTE CESTU K VAŠEMU PROFILOVÉMU OBRÁZKU
-            avatarImg.src = "images/IMG_8334.jpg"; // Např. "images/muj-avatar.jpg"
+            // Detekce Instagram/Facebook webview
+            const isWebView = /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+            const instructionTextElement = document.getElementById('instructionTextElement');
+            const avatarImage = document.getElementById('avatarImage'); // ID přidáno k img tagu
 
-            if (isInstagramWebView) {
-                if (mainActionLink) {
-                    mainActionLink.addEventListener('click', function(event) {
-                        event.preventDefault(); 
-                        if (instructionOverlay) {
-                            instructionOverlay.style.display = 'flex';
-                            setTimeout(() => { instructionOverlay.classList.add('visible'); }, 10); 
-                        }
-                    });
+            // NASTAVTE ZDE URL K VAŠEMU AVATARU (musí odpovídat tomu v HTML nebo být zde nastaveno):
+            // avatarImage.src = "images/vas_avatar.jpg"; // Příklad
+            // Pokud necháte placeholder v HTML, nemusíte zde měnit, pokud je to stejný placeholder.
+            // Pokud chcete dynamicky měnit, odkomentujte a nastavte.
+
+            const defaultInstruction = "Pro nejlepší zážitek a přístup ke všem funkcím, prosím, otevřete naše stránky ve Vašem hlavním prohlížeči.";
+            const webViewInstruction = "Pro nejlepší zážitek a všechny funkce je třeba tuto stránku otevřít ve Vašem hlavním prohlížeči.<br><br>Uděláte to takto: <strong>Podržte prst na tlačítku</strong> \"Pokračovat na mé odkazy\" níže a z nabídky, která se objeví, zvolte <strong>\"Otevřít v prohlížeči\"</strong> (nebo podobnou volbu).";
+
+            if (isWebView) {
+                if (instructionTextElement) {
+                    instructionTextElement.innerHTML = webViewInstruction;
                 }
-            }
-
-            if (closeOverlayButton && instructionOverlay) {
-                closeOverlayButton.addEventListener('click', function() {
-                    instructionOverlay.classList.remove('visible');
-                    setTimeout(() => { instructionOverlay.style.display = 'none'; }, 300);
-                });
-            }
-            if (instructionOverlay) {
-                instructionOverlay.addEventListener('click', function(event) {
-                    if (event.target === instructionOverlay) { 
-                        instructionOverlay.classList.remove('visible');
-                        setTimeout(() => { instructionOverlay.style.display = 'none'; }, 300);
-                    }
-                });
+                // Atribut target="_blank" na odkazu může v některých webview pomoci, 
+                // ale instrukce pro dlouhé stisknutí je spolehlivější metoda,
+                // jak dát uživateli možnost vynutit si otevření v externím prohlížeči.
+                // Nebráníme výchozí akci odkazu (event.preventDefault() není voláno),
+                // aby odkaz zůstal funkční pro všechny scénáře.
+            } else {
+                if (instructionTextElement) {
+                    // Pokud nejsme ve webview, můžeme text zjednodušit nebo nechat obecný.
+                    instructionTextElement.innerHTML = defaultInstruction + "<br><br>Zdá se, že již používáte standardní prohlížeč, takže stačí kliknout níže.";
+                }
             }
         });
     </script>
