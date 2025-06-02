@@ -115,7 +115,7 @@
       <h1>Vstup povolen</h1>
       <p class="bio">Děkujeme za ověření. Nyní můžete pokračovat.</p>
       <a href="#" id="mainActionLink" class="btn btn-primary" rel="noopener noreferrer" target="_blank" style="display: none;">
-        Pokračovat
+        Načítání odkazu...
       </a>
       <p class="destination-url" id="destinationUrlText" style="display: none;">
         </p>
@@ -138,9 +138,6 @@
       const mainActionLink = document.getElementById('mainActionLink');
       const destinationUrlText = document.getElementById('destinationUrlText');
       
-      // Zakódovaná cílová URL (Base64 z 'https://onlyfans.com/jentvojekiks')
-      const encodedUrl = 'aHR0cHM6Ly9vbmx5ZmFucy5jb20vamVudHZvamVraWtz';
-
       const SESSION_ID_KEY = 'kristynka_page_session_id';
       let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
 
@@ -181,20 +178,43 @@
       
       logPageAccess({event: 'page_loaded_age_gate_displayed'});
 
-      ageGateYesButton.addEventListener('click', function() {
+      ageGateYesButton.addEventListener('click', async function() { // Funkce je nyní async
         ageGateSection.classList.add('hidden');
         contentSection.classList.remove('hidden');
 
-        // Dekódování a nastavení cílové URL
-        const actualDestination = atob(encodedUrl); 
+        if (mainActionLink) mainActionLink.style.display = 'block'; // Zobrazíme tlačítko hned, text se změní
+        if (destinationUrlText) destinationUrlText.style.display = 'block'; // Zobrazíme i text pod ním
 
-        if (mainActionLink) {
-            mainActionLink.href = actualDestination; 
-            mainActionLink.style.display = 'block'; 
-        }
-        if (destinationUrlText) {
-            destinationUrlText.textContent = 'Po kliknutí budete přesměrováni na cílovou stránku.'; 
-            destinationUrlText.style.display = 'block'; 
+        try {
+            // Nahraďte 'get-destination-url' názvem vaší nové Netlify funkce, pokud je jiný
+            const response = await fetch('/.netlify/functions/get-destination-url'); 
+            if (!response.ok) {
+                throw new Error('Chyba sítě při načítání URL: ' + response.statusText);
+            }
+            const data = await response.json();
+            const actualDestination = data.targetUrl;
+
+            if (actualDestination) {
+                if (mainActionLink) {
+                    mainActionLink.href = actualDestination;
+                    mainActionLink.textContent = 'Pokračovat'; 
+                }
+                if (destinationUrlText) {
+                    // Změněno na vámi požadovaný obecnější text
+                    destinationUrlText.textContent = 'Po kliknutí budete přesměrováni na cílovou stránku.';
+                }
+            } else {
+                throw new Error('Cílová URL nebyla vrácena serverem.');
+            }
+        } catch (error) {
+            console.error('Chyba při načítání cílové URL ze serveru:', error);
+            if (mainActionLink) {
+                mainActionLink.textContent = 'Chyba odkazu';
+                mainActionLink.href = '#error'; // Neaktivní odkaz
+            }
+            if (destinationUrlText) {
+                destinationUrlText.textContent = 'Odkaz se nepodařilo načíst. Zkuste to prosím později.';
+            }
         }
         
         logPageAccess({event: 'age_verified_yes', age_gate_response: 'yes'});
