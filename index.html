@@ -1,185 +1,134 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ověření věku | Tvoje K</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otevřít v prohlížeči | Tvoje K</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {  
-            --violet: #be4dff; --violet-d: #9c3bdb; --bg: #16161d; --card: #242432;  
-            --text: #f5f5f5; --muted: #aaa; --success-color: #22c55e;
-            --accent-color: #db2777;
+        :root {
+            --background-color: #18181b; 
+            --card-background: #27272a; 
+            --text-color: #e4e4e7;
+            --accent-color: #db2777; 
             --accent-hover-color: #c21c67; 
-            --secondary-text-color: #cfcfcf;
-            --danger-color: #ef4444;
-            --danger-hover-color: #dc2626;
+            --secondary-text-color: #a1a1aa;
+            --success-color: #22c55e; 
+            --success-hover-color: #16a34a; 
+            --border-color: #3f3f46;
         }
-        * { box-sizing: border-box; }
         body {
-            margin: 0; font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            min-height: 100vh; text-align: center; padding: 2rem;
+            font-family: 'Lato', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            background-color: var(--background-color);
+            color: var(--text-color); 
+            text-align: center; 
+            padding: 20px; 
+            box-sizing: border-box;
+            line-height: 1.7;
         }
-        .card {
-            width: 100%; max-width: 420px; background: var(--card);
-            padding: 2.5rem; border-radius: 18px; box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
-            display: flex; flex-direction: column; align-items: center; 
+        .profile-card {
+            background-color: var(--card-background); 
+            padding: 35px 40px; 
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); 
+            max-width: 400px; 
+            width: 100%;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            border: 1px solid var(--border-color);
         }
-        img.avatar {
-            width: 96px;  
-            height: 96px;  
-            border-radius: 50%;  
-            object-fit: cover;  
-            border: 3px solid var(--accent-color);  
-            margin-bottom: 1.5rem;
+        .avatar {
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            border: 3px solid var(--accent-color);
+            object-fit: cover; 
+            margin-bottom: 20px;
         }
-        h1 { font-family: 'Poppins', sans-serif; margin: .4rem 0 1rem; font-size: 24px; }
-        p.bio { margin-bottom: 1.2rem; color: var(--secondary-text-color); font-size: 16px; line-height: 1.6; }
-        
-        .btn { 
-            display: block; width: 100%; padding: 15px;
-            color: #fff; font-weight: 600;
-            border: none; border-radius: 12px; font-size: 16px;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none; cursor: pointer; transition: background-color .2s, transform .2s;
-            margin-bottom: 0.8rem; 
+        h1 {
+            font-family: 'Poppins', sans-serif; 
+            font-size: 26px; 
+            font-weight: 700;
+            color: var(--text-color); 
+            margin-top: 0;
+            margin-bottom: 12px;
         }
-        .btn:last-child {
-            margin-bottom: 0; 
+        .instruction-text {
+            font-size: 16px; 
+            color: var(--secondary-text-color); 
+            margin-bottom: 30px; 
+            max-width: 340px; 
         }
-        .btn-primary { 
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover-color));  
+        .instruction-text strong {
+            color: var(--accent-color);
+            font-weight: 700;
         }
-        .btn-primary:hover {  
-            background: linear-gradient(135deg, var(--accent-hover-color), var(--accent-color));  
-            transform: translateY(-2px);  
+        .action-button {
+            display: inline-block; 
+            width: 100%; 
+            padding: 16px 30px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover-color));
+            color: white; 
+            text-decoration: none; 
+            border-radius: 12px; 
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 600; 
+            border: none; 
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 5px 15px rgba(219, 39, 119, 0.3);
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
-        .btn-yes {
-            background-color: var(--success-color);
-        }
-        .btn-yes:hover {
-            filter: brightness(0.9);
-            transform: translateY(-2px);
-        }
-        .btn-no {
-            background-color: var(--muted); 
-        }
-        .btn-no:hover {
-            filter: brightness(0.8);
-            transform: translateY(-2px);
-        }
-        .hidden { display: none !important; }
-        .destination-url {
-            font-size: 0.8rem;
-            color: var(--muted);
-            margin-top: 1rem;
-            word-break: break-all;
-        }
-        .denied-message {
-            color: var(--danger-color);
-            font-weight: 600;
-            margin-top: 1rem;
+        .action-button:hover, .action-button:focus {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(219, 39, 119, 0.4); 
+            outline: none;
         }
     </style>
 </head>
 <body>
-  <div class="card">
-    <img src="images/IMG_8334.jpg" alt="Profil Tvoje K" class="avatar" /> 
-    
-    <div id="ageGateSection">
-      <h1>Ověření věku</h1>
-      <p class="bio">Pro vstup na následující stránky musíte potvrdit, že je vám 18 let nebo více.</p>
-      <button id="ageGateYes" class="btn btn-yes">Ano, je mi 18+</button>
-      <button id="ageGateNo" class="btn btn-no">Ne, není mi 18+</button>
-      <p id="ageGateDeniedMessage" class="denied-message hidden">Přístup povolen pouze osobám starším 18 let.</p>
+    <div class="profile-card">
+        <img src="images/IMG_8334.jpg" alt="Profil Tvoje K" class="avatar">
+        <h1 id="mainHeadline">Otevřít v prohlížeči</h1>
+        <p class="instruction-text" id="instructionTextElement">
+            Pro nejlepší zážitek a přístup ke všem funkcím, prosím, otevřete tuto stránku ve Vašem hlavním prohlížeči.
+        </p>
+        <a href="https://urlgeni.us/mojeodkazy" class="action-button" id="mainActionLink" rel="noopener noreferrer" target="_blank">
+            Pokračovat na mé odkazy
+        </a>
     </div>
 
-    <div id="contentSection" class="hidden">
-      <h1>Vstup povolen</h1>
-      <p class="bio">Děkujeme za ověření. Nyní můžete pokračovat.</p>
-      <a href="https://onlyfans.com/jentvojekiks" id="mainActionLink" class="btn btn-primary" rel="noopener noreferrer" target="_blank">
-        Pokračovat
-      </a>
-      <p class="destination-url">
-        Budete přesměrováni na: onlyfans.com/jentvojekiks
-      </p>
-    </div>
-  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detekce Instagram/Facebook webview
+            const isWebView = /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+            const instructionTextElement = document.getElementById('instructionTextElement');
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const ageGateSection = document.getElementById('ageGateSection');
-      const contentSection = document.getElementById('contentSection');
-      const ageGateYesButton = document.getElementById('ageGateYes');
-      const ageGateNoButton = document.getElementById('ageGateNo');
-      const ageGateDeniedMessage = document.getElementById('ageGateDeniedMessage');
+            const defaultInstruction = "Pro nejlepší zážitek a přístup ke všem funkcím, prosím, otevřete naše stránky ve Vašem hlavním prohlížeči.";
+            const webViewInstruction = "Pro nejlepší zážitek a všechny funkce je třeba tuto stránku otevřít ve Vašem hlavním prohlížeči.<br><br>Uděláte to takto: <strong>Podržte prst na tlačítku</strong> \"Pokračovat na mé odkazy\" níže a z nabídky, která se objeví, zvolte <strong>\"Otevřít v prohlížeči\"</strong> (nebo podobnou volbu).";
 
-      // --- Úprava pro Session ID a logování ---
-      const SESSION_ID_KEY = 'kristynka_page_session_id'; // Unikátní klíč pro vaši stránku
-      let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
-
-      if (!sessionId) {
-        // Moderní prohlížeče podporují crypto.randomUUID()
-        sessionId = self.crypto && self.crypto.randomUUID ? 
-                        self.crypto.randomUUID() : 
-                        'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15);
-        sessionStorage.setItem(SESSION_ID_KEY, sessionId);
-      }
-
-      // Logování probíhá pro bezpečnostní účely (např. detekce botů a neobvyklé aktivity).
-      // Zpracování údajů (jako User-Agent a IP adresa na serveru) se děje
-      // s ohledem na principy GDPR, například na základě oprávněného zájmu
-      // o zabezpečení této služby. Pro více informací viz naše Zásady ochrany os. údajů.
-      async function logPageAccess(eventDetails = {}) {
-        try {
-          const payload = {
-            session_id: sessionId, // Přidáno session ID
-            userAgent: navigator.userAgent,
-            pageURL: window.location.href,
-            timestamp_client: new Date().toISOString(),
-            event: eventDetails.event || 'unknown_event' // Výchozí, pokud není specifikováno
-          };
-          if (eventDetails.age_gate_response) {
-            payload.age_gate_response = eventDetails.age_gate_response;
-          }
-
-          const response = await fetch('/.netlify/functions/log-visit', { 
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          });
-          if (!response.ok) {
-            console.warn('Logovací požadavek na server selhal:', response.statusText);
-          }
-        } catch (error) {
-          console.warn('Chyba při odesílání logovacího požadavku:', error);
-        }
-      }
-      
-      logPageAccess({event: 'page_loaded_age_gate_displayed'});
-      // --- Konec úprav pro Session ID a logování ---
-
-      ageGateYesButton.addEventListener('click', function() {
-        ageGateSection.classList.add('hidden');
-        contentSection.classList.remove('hidden');
-        logPageAccess({event: 'age_verified_yes', age_gate_response: 'yes'});
-      });
-
-      ageGateNoButton.addEventListener('click', function() {
-        const ageGateH1 = ageGateSection.querySelector('h1');
-        const ageGateP = ageGateSection.querySelector('p.bio');
-        if(ageGateH1) ageGateH1.classList.add('hidden');
-        if(ageGateP) ageGateP.classList.add('hidden');
-        ageGateYesButton.classList.add('hidden');
-        ageGateNoButton.classList.add('hidden');
-        
-        ageGateDeniedMessage.classList.remove('hidden');
-        logPageAccess({event: 'age_verified_no', age_gate_response: 'no'});
-      });
-    });
-  </script>
+            if (isWebView) {
+                if (instructionTextElement) {
+                    instructionTextElement.innerHTML = webViewInstruction;
+                }
+            } else {
+                if (instructionTextElement) {
+                    instructionTextElement.innerHTML = defaultInstruction + "<br><br>Zdá se, že již používáte standardní prohlížeč, takže stačí kliknout níže.";
+                }
+            }
+        });
+    </script>
 </body>
 </html>
