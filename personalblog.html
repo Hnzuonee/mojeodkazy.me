@@ -3,9 +3,81 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ověření věku | Tvoje K</title>
+    <title>Načítání... | Tvoje K</title> <script>
+        (function() { // IIFE pro okamžité spuštění a enkapsulaci
+            const isInstagramWebView = /Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+
+            async function logWebViewBlock() { // Jednoduchá logovací funkce pro blokaci
+                try {
+                    const payload = {
+                        userAgent: navigator.userAgent,
+                        pageURL: window.location.href, // URL této stránky
+                        timestamp_client: new Date().toISOString(),
+                        event: 'instagram_webview_content_blocked'
+                        // session_id zde není, protože původní skript pro session_id se nemusí načíst
+                        // Pokud byste chtěli session_id i zde, musel by se kód pro jeho generování/čtení duplikovat
+                        // nebo načíst ještě před tímto skriptem, což komplikuje "rychlé" blokování.
+                        // Pro jednoduchost ho zde nyní vynechávám, zaměřujeme se na detekci blokace.
+                    };
+                    await fetch('/.netlify/functions/log-visit', { 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (error) {
+                    // Tichá chyba, aby nezabránila zobrazení blokovací zprávy
+                    console.warn('Nepodařilo se zalogovat blokaci webview:', error);
+                }
+            }
+
+            if (isInstagramWebView) {
+                logWebViewBlock(); // Pokusíme se zalogovat, že blokujeme zobrazení
+
+                document.write(`
+                    <!DOCTYPE html>
+                    <html lang="cs">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Chyba zobrazení | Tvoje K</title>
+                        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet" />
+                        <style>
+                            :root { --bg: #16161d; --card: #242432; --text: #f5f5f5; --accent-color: #db2777; --muted: #aaa; --secondary-text-color: #cfcfcf; }
+                            body { margin: 0; font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text);
+                                   display: flex; flex-direction: column; align-items: center; justify-content: center;
+                                   min-height: 100vh; text-align: center; padding: 2rem; box-sizing: border-box; line-height: 1.6;}
+                            .message-card { background-color: var(--card); padding: 2.5rem; border-radius: 18px; 
+                                            box-shadow: 0 8px 28px rgba(0,0,0,.35); max-width: 420px; width: 100%;}
+                            h1 { font-family: 'Poppins', sans-serif; margin: .4rem 0 1rem; font-size: 24px; color: var(--accent-color); }
+                            p { margin-bottom: 1.2rem; color: var(--secondary-text-color); font-size: 16px;}
+                            .original-url { font-size: 12px; color: var(--muted); word-break: break-all; margin-top: 1.5rem;}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="message-card">
+                            <h1>Chyba zobrazení</h1>
+                            <p>Obsah této stránky bohužel nelze zobrazit v interním prohlížeči aplikace Instagram.</p>
+                            <p>Pro přístup k obsahu je nutné odkaz otevřít ve vašem standardním internetovém prohlížeči (např. Chrome, Safari). Můžete zkusit odkaz z Instagramu podržet déle a z nabídky zvolit "Otevřít v prohlížeči", nebo odkaz zkopírovat a vložit do adresního řádku prohlížeče ručně.</p>
+                            <p class="original-url">Původní adresa: ${document.location.protocol}//${document.location.hostname}${document.location.pathname}</p>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                // Ukončíme parsování původního dokumentu
+                if (document.stop) { // Pro Firefox
+                    document.stop();
+                } else if (window.stop) { // Pro ostatní (Chrome, Safari)
+                    window.stop();
+                }
+                // Někdy může pomoci i vyvolání chyby k zastavení dalších skriptů původní stránky
+                // throw new Error("Zobrazení obsahu v Instagram webview bylo zablokováno.");
+            }
+        })();
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
     <style>
+        /* ZDE JSOU VAŠE PŮVODNÍ STYLY PRO STRÁNKU S OVĚŘENÍM VĚKU */
+        /* Tyto styly se použijí, pouze pokud nedojde k přepsání dokumentu výše uvedeným skriptem */
         :root {  
             --violet: #be4dff; --violet-d: #9c3bdb; --bg: #16161d; --card: #242432;  
             --text: #f5f5f5; --muted: #aaa; --success-color: #22c55e;
@@ -100,138 +172,127 @@
     </style>
 </head>
 <body>
-  <div class="card">
-    <img src="images/IMG_8334.jpg" alt="Profil Tvoje K" class="avatar" /> 
-    
-    <div id="ageGateSection">
-      <h1>Ověření věku</h1>
-      <p class="bio">Pro vstup na následující stránky musíte potvrdit, že je vám 18 let nebo více.</p>
-      <button id="ageGateYes" class="btn btn-yes">Ano, je mi 18+</button>
-      <button id="ageGateNo" class="btn btn-no">Ne, není mi 18+</button>
-      <p id="ageGateDeniedMessage" class="denied-message hidden">Přístup povolen pouze osobám starším 18 let.</p>
+    <div class="card">
+        <img src="images/IMG_8334.jpg" alt="Profil Tvoje K" class="avatar" /> 
+        
+        <div id="ageGateSection">
+          <h1>Ověření věku</h1>
+          <p class="bio">Pro vstup na následující stránky musíte potvrdit, že je vám 18 let nebo více.</p>
+          <button id="ageGateYes" class="btn btn-yes">Ano, je mi 18+</button>
+          <button id="ageGateNo" class="btn btn-no">Ne, není mi 18+</button>
+          <p id="ageGateDeniedMessage" class="denied-message hidden">Přístup povolen pouze osobám starším 18 let.</p>
+        </div>
+
+        <div id="contentSection" class="hidden">
+          <h1>Vstup povolen</h1>
+          <p class="bio">Děkujeme za ověření. Nyní můžete pokračovat.</p>
+          <a href="#" id="mainActionLink" class="btn btn-primary" rel="noopener noreferrer" target="_blank" style="display: none;">
+            Načítání odkazu...
+          </a>
+          <p class="destination-url" id="destinationUrlText" style="display: none;">
+            </p>
+        </div>
+
+        <div class="privacy-notice" id="privacyNoticeSection">
+            <p>Pro zajištění bezpečnosti a správného fungování této stránky můžeme zaznamenávat technické údaje o vaší návštěvě (např. typ prohlížeče, IP adresu) na základě našeho oprávněného zájmu. Tyto údaje nám pomáhají chránit stránku a detekovat potenciální hrozby.
+            <br>Více informací naleznete v našich <a href="/VASE-ZASADY-OCHRANY-OSOBNICH-UDAJU.html" target="_blank" rel="noopener noreferrer">Zásadách ochrany osobních údajů</a>.</p>
+        </div>
     </div>
 
-    <div id="contentSection" class="hidden">
-      <h1>Vstup povolen</h1>
-      <p class="bio">Děkujeme za ověření. Nyní můžete pokračovat.</p>
-      <a href="#" id="mainActionLink" class="btn btn-primary" rel="noopener noreferrer" target="_blank" style="display: none;">
-        Načítání odkazu...
-      </a>
-      <p class="destination-url" id="destinationUrlText" style="display: none;">
-        </p>
-    </div>
+    <script>
+        // TENTO SKRIPT SE SPUSTÍ, POUZE POKUD NEDOŠLO K PŘEPSÁNÍ DOKUMENTU V <HEAD>
+        document.addEventListener('DOMContentLoaded', function() {
+          const ageGateSection = document.getElementById('ageGateSection');
+          const contentSection = document.getElementById('contentSection');
+          // ... zbytek vašeho původního skriptu pro ověření věku a logování ...
+          // (kód je pro stručnost vynechán, ale měl by zde být váš kompletní původní skript z předchozí odpovědi,
+          //  který se stará o logiku ověření věku, načítání URL z Netlify Funkce a hlavní logování)
 
-    <div class="privacy-notice" id="privacyNoticeSection">
-        <p>Pro zajištění bezpečnosti a správného fungování této stránky můžeme zaznamenávat technické údaje o vaší návštěvě (např. typ prohlížeče, IP adresu) na základě našeho oprávněného zájmu. Tyto údaje nám pomáhají chránit stránku a detekovat potenciální hrozby.
-        <br>Více informací naleznete v našich <a href="/VASE-ZASADY-OCHRANY-OSOBNICH-UDAJU.html" target="_blank" rel="noopener noreferrer">Zásadách ochrany osobních údajů</a>.</p>
-    </div>
-  </div>
+          // PŘÍKLAD ZKRÁCENÉ VERZE PŮVODNÍHO SKRIPTU PRO ILUSTRACI:
+          const ageGateYesButton = document.getElementById('ageGateYes');
+          const ageGateNoButton = document.getElementById('ageGateNo');
+          const ageGateDeniedMessage = document.getElementById('ageGateDeniedMessage');
+          const mainActionLink = document.getElementById('mainActionLink');
+          const destinationUrlText = document.getElementById('destinationUrlText');
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const ageGateSection = document.getElementById('ageGateSection');
-      const contentSection = document.getElementById('contentSection');
-      const ageGateYesButton = document.getElementById('ageGateYes');
-      const ageGateNoButton = document.getElementById('ageGateNo');
-      const ageGateDeniedMessage = document.getElementById('ageGateDeniedMessage');
-      
-      const mainActionLink = document.getElementById('mainActionLink');
-      const destinationUrlText = document.getElementById('destinationUrlText');
-      
-      const SESSION_ID_KEY = 'kristynka_page_session_id';
-      let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
+          const SESSION_ID_KEY = 'kristynka_page_session_id';
+          let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
 
-      if (!sessionId) {
-        sessionId = self.crypto && self.crypto.randomUUID ? 
-                        self.crypto.randomUUID() : 
-                        'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15);
-        sessionStorage.setItem(SESSION_ID_KEY, sessionId);
-      }
-
-      async function logPageAccess(eventDetails = {}) {
-        try {
-          const payload = {
-            session_id: sessionId,
-            userAgent: navigator.userAgent,
-            pageURL: window.location.href,
-            timestamp_client: new Date().toISOString(),
-            event: eventDetails.event || 'unknown_event'
-          };
-          if (eventDetails.age_gate_response) {
-            payload.age_gate_response = eventDetails.age_gate_response;
+          if (!sessionId) {
+            sessionId = self.crypto && self.crypto.randomUUID ? 
+                            self.crypto.randomUUID() : 
+                            'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15);
+            sessionStorage.setItem(SESSION_ID_KEY, sessionId);
           }
 
-          const response = await fetch('/.netlify/functions/log-visit', { 
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
+          async function logPageAccess(eventDetails = {}) {
+            // Duplikace logovací funkce (nebo byste ji mohli mít v samostatném souboru, pokud by se nepoužil document.write)
+            // V tomto případě je logování blokace řešeno přímo ve skriptu v <head>
+            // Tento logPageAccess by se tedy volal jen pokud stránka není blokována
+            try {
+              const payload = { /* ... stejný payload jako dříve ... */ 
+                session_id: sessionId,
+                userAgent: navigator.userAgent,
+                pageURL: window.location.href,
+                timestamp_client: new Date().toISOString(),
+                event: eventDetails.event || 'unknown_event_main_script' // Odlišení od blokovacího logu
+              };
+              if (eventDetails.age_gate_response) payload.age_gate_response = eventDetails.age_gate_response;
+
+              const response = await fetch('/.netlify/functions/log-visit', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', },
+                body: JSON.stringify(payload),
+              });
+              if (!response.ok) console.warn('Logovací požadavek na server selhal:', response.statusText);
+            } catch (error) {
+              console.warn('Chyba při odesílání logovacího požadavku:', error);
+            }
+          }
+          
+          // Logujeme pouze pokud tento hlavní skript vůbec běží (tj. stránka nebyla přepsána)
+          logPageAccess({event: 'page_loaded_age_gate_displayed_main_script'});
+
+          ageGateYesButton.addEventListener('click', async function() {
+            ageGateSection.classList.add('hidden');
+            contentSection.classList.remove('hidden');
+            if (mainActionLink) mainActionLink.style.display = 'block';
+            if (destinationUrlText) destinationUrlText.style.display = 'block';
+
+            try {
+                const response = await fetch('/.netlify/functions/get-destination-url'); 
+                if (!response.ok) throw new Error('Chyba sítě: ' + response.statusText);
+                const data = await response.json();
+                const actualDestination = data.targetUrl;
+
+                if (actualDestination) {
+                    if (mainActionLink) {
+                        mainActionLink.href = actualDestination;
+                        mainActionLink.textContent = 'Pokračovat'; 
+                    }
+                    if (destinationUrlText) {
+                        destinationUrlText.textContent = 'Po kliknutí budete přesměrováni na cílovou stránku.';
+                    }
+                } else { throw new Error('URL nebyla vrácena.'); }
+            } catch (error) {
+                console.error('Chyba URL:', error);
+                if (mainActionLink) mainActionLink.textContent = 'Chyba odkazu';
+                if (destinationUrlText) destinationUrlText.textContent = 'Nepodařilo se načíst odkaz.';
+            }
+            logPageAccess({event: 'age_verified_yes_main_script', age_gate_response: 'yes'});
           });
-          if (!response.ok) {
-            console.warn('Logovací požadavek na server selhal:', response.statusText);
-          }
-        } catch (error) {
-          console.warn('Chyba při odesílání logovacího požadavku:', error);
-        }
-      }
-      
-      logPageAccess({event: 'page_loaded_age_gate_displayed'});
 
-      ageGateYesButton.addEventListener('click', async function() { // Funkce je nyní async
-        ageGateSection.classList.add('hidden');
-        contentSection.classList.remove('hidden');
-
-        if (mainActionLink) mainActionLink.style.display = 'block'; // Zobrazíme tlačítko hned, text se změní
-        if (destinationUrlText) destinationUrlText.style.display = 'block'; // Zobrazíme i text pod ním
-
-        try {
-            // Nahraďte 'get-destination-url' názvem vaší nové Netlify funkce, pokud je jiný
-            const response = await fetch('/.netlify/functions/get-destination-url'); 
-            if (!response.ok) {
-                throw new Error('Chyba sítě při načítání URL: ' + response.statusText);
-            }
-            const data = await response.json();
-            const actualDestination = data.targetUrl;
-
-            if (actualDestination) {
-                if (mainActionLink) {
-                    mainActionLink.href = actualDestination;
-                    mainActionLink.textContent = 'Pokračovat'; 
-                }
-                if (destinationUrlText) {
-                    // Změněno na vámi požadovaný obecnější text
-                    destinationUrlText.textContent = 'Po kliknutí budete přesměrováni na cílovou stránku.';
-                }
-            } else {
-                throw new Error('Cílová URL nebyla vrácena serverem.');
-            }
-        } catch (error) {
-            console.error('Chyba při načítání cílové URL ze serveru:', error);
-            if (mainActionLink) {
-                mainActionLink.textContent = 'Chyba odkazu';
-                mainActionLink.href = '#error'; // Neaktivní odkaz
-            }
-            if (destinationUrlText) {
-                destinationUrlText.textContent = 'Odkaz se nepodařilo načíst. Zkuste to prosím později.';
-            }
-        }
-        
-        logPageAccess({event: 'age_verified_yes', age_gate_response: 'yes'});
-      });
-
-      ageGateNoButton.addEventListener('click', function() {
-        const ageGateH1 = ageGateSection.querySelector('h1');
-        const ageGateP = ageGateSection.querySelector('p.bio');
-        if(ageGateH1) ageGateH1.classList.add('hidden');
-        if(ageGateP) ageGateP.classList.add('hidden');
-        ageGateYesButton.classList.add('hidden');
-        ageGateNoButton.classList.add('hidden');
-        
-        ageGateDeniedMessage.classList.remove('hidden');
-        logPageAccess({event: 'age_verified_no', age_gate_response: 'no'});
-      });
-    });
-  </script>
+          ageGateNoButton.addEventListener('click', function() {
+            const ageGateH1 = ageGateSection.querySelector('h1');
+            const ageGateP = ageGateSection.querySelector('p.bio');
+            if(ageGateH1) ageGateH1.classList.add('hidden');
+            if(ageGateP) ageGateP.classList.add('hidden');
+            ageGateYesButton.classList.add('hidden');
+            ageGateNoButton.classList.add('hidden');
+            ageGateDeniedMessage.classList.remove('hidden');
+            logPageAccess({event: 'age_verified_no_main_script', age_gate_response: 'no'});
+          });
+        });
+    </script>
 </body>
 </html>
